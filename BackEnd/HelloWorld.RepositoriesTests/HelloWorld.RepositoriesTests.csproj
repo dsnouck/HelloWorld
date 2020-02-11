@@ -32,4 +32,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HelloWorld.Repositories\HelloWorld.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>

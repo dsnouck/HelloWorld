@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HelloWorld.Entities\HelloWorld.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

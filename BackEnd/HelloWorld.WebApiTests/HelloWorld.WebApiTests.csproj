@@ -32,4 +32,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HelloWorld.WebApi\HelloWorld.WebApi.csproj" />
+  </ItemGroup>
+
 </Project>
