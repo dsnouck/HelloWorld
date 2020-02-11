@@ -7,30 +7,25 @@ namespace HelloWorld.Components
 {
     using System.Collections.Generic;
     using HelloWorld.Entities;
+    using HelloWorld.Repositories;
 
     /// <inheritdoc/>
     public class MessageComponent : IMessageComponent
     {
-        private readonly string text;
+        private readonly IMessageRepository messageRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageComponent"/> class.
         /// </summary>
         public MessageComponent()
         {
-            this.text = "Hello, world!";
+            this.messageRepository = new MessageRepository();
         }
 
         /// <inheritdoc/>
         public List<Message> GetAllMessages()
         {
-            return new List<Message>
-            {
-                new Message
-                {
-                    Text = this.text,
-                },
-            };
+            return this.messageRepository.GetAllMessages();
         }
     }
 }
