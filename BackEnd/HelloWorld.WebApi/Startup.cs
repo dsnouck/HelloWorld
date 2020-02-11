@@ -1,48 +1,63 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+// <copyright file="Startup.cs" company="dsnouck">
+// Copyright (c) dsnouck. All rights reserved.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace HelloWorld.WebApi
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+
+    /// <summary>
+    /// The startup class.
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="configuration">An <see cref="IConfiguration"/>.</param>
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
+        /// <summary>
+        /// Gets the configuration.
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services">An <see cref="IServiceCollection"/>.</param>
+        public static void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="applicationBuilder">An <see cref="IApplicationBuilder"/>.</param>
+        /// <param name="webHostEnvironment">An <see cref="IWebHostEnvironment"/>.</param>
+        public static void Configure(IApplicationBuilder applicationBuilder, IWebHostEnvironment webHostEnvironment)
         {
-            if (env.IsDevelopment())
+            if (webHostEnvironment.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                applicationBuilder.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            applicationBuilder.UseHttpsRedirection();
 
-            app.UseRouting();
+            applicationBuilder.UseRouting();
 
-            app.UseAuthorization();
+            applicationBuilder.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            applicationBuilder.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
