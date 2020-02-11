@@ -1,17 +1,17 @@
-﻿// <copyright file="IMessageRepository.cs" company="dsnouck">
+﻿// <copyright file="IMessageComponent.cs" company="dsnouck">
 // Copyright (c) dsnouck. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace HelloWorld.Repositories
+namespace HelloWorld.Components.Interfaces
 {
     using System.Collections.Generic;
     using HelloWorld.Entities;
 
     /// <summary>
-    /// Provides repository operations concerning <see cref="Message"/>s.
+    /// Provides operations concerning <see cref="Message"/>s.
     /// </summary>
-    public interface IMessageRepository
+    public interface IMessageComponent
     {
         /// <summary>
         /// Gets all <see cref="Message"/>s.

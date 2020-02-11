@@ -5,19 +5,25 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.WebApi", "HelloWorld.WebApi\HelloWorld.WebApi.csproj", "{371A1866-7017-49C5-9350-B984BC07700F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Components", "HelloWorld.Components\HelloWorld.Components.csproj", "{957D28DF-1E12-4960-BE4B-8D674D4F5BF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.Components", "HelloWorld.Components\HelloWorld.Components.csproj", "{957D28DF-1E12-4960-BE4B-8D674D4F5BF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Repositories", "HelloWorld.Repositories\HelloWorld.Repositories.csproj", "{1D150EFE-FC1B-410B-BA17-42264314BB64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.Repositories", "HelloWorld.Repositories\HelloWorld.Repositories.csproj", "{1D150EFE-FC1B-410B-BA17-42264314BB64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Entities", "HelloWorld.Entities\HelloWorld.Entities.csproj", "{978E54D5-4EE3-44F2-9E1A-9FD75C743B97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.Entities", "HelloWorld.Entities\HelloWorld.Entities.csproj", "{978E54D5-4EE3-44F2-9E1A-9FD75C743B97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.RepositoriesTests", "HelloWorld.RepositoriesTests\HelloWorld.RepositoriesTests.csproj", "{8EC3EE9D-3746-4906-9F3C-50B1A833ECCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.RepositoriesTests", "HelloWorld.RepositoriesTests\HelloWorld.RepositoriesTests.csproj", "{8EC3EE9D-3746-4906-9F3C-50B1A833ECCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.ComponentsTests", "HelloWorld.ComponentsTests\HelloWorld.ComponentsTests.csproj", "{158D0F18-46EF-4CFA-8206-08028628BC3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.ComponentsTests", "HelloWorld.ComponentsTests\HelloWorld.ComponentsTests.csproj", "{158D0F18-46EF-4CFA-8206-08028628BC3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.WebApiTests", "HelloWorld.WebApiTests\HelloWorld.WebApiTests.csproj", "{1EE78238-DF7B-4854-88C7-71FE3E6B5CB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.WebApiTests", "HelloWorld.WebApiTests\HelloWorld.WebApiTests.csproj", "{1EE78238-DF7B-4854-88C7-71FE3E6B5CB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.WebApiIntegrationTests", "HelloWorld.WebApiIntegrationTests\HelloWorld.WebApiIntegrationTests.csproj", "{F6CEBCDF-1521-436F-B0B4-6EEBA539BB80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.WebApiIntegrationTests", "HelloWorld.WebApiIntegrationTests\HelloWorld.WebApiIntegrationTests.csproj", "{F6CEBCDF-1521-436F-B0B4-6EEBA539BB80}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8B903C6E-AD7B-47DC-9994-6E7ECDA8DEE0}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		stylecop.json = stylecop.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

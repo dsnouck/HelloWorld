@@ -5,6 +5,8 @@
 
 namespace HelloWorld.WebApi
 {
+    using HelloWorld.Components;
+    using HelloWorld.Repositories;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -36,7 +38,10 @@ namespace HelloWorld.WebApi
         /// <param name="services">An <see cref="IServiceCollection"/>.</param>
         public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services
+                .AddRepositories()
+                .AddComponents()
+                .AddControllers();
         }
 
         /// <summary>

@@ -3,11 +3,12 @@
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace HelloWorld.Components
+namespace HelloWorld.Components.Implementations
 {
     using System.Collections.Generic;
+    using HelloWorld.Components.Interfaces;
     using HelloWorld.Entities;
-    using HelloWorld.Repositories;
+    using HelloWorld.Repositories.Interfaces;
 
     /// <inheritdoc/>
     public class MessageComponent : IMessageComponent
@@ -17,9 +18,11 @@ namespace HelloWorld.Components
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageComponent"/> class.
         /// </summary>
-        public MessageComponent()
+        /// <param name="messageRepository">An <see cref="IMessageRepository"/>.</param>
+        public MessageComponent(
+            IMessageRepository messageRepository)
         {
-            this.messageRepository = new MessageRepository();
+            this.messageRepository = messageRepository;
         }
 
         /// <inheritdoc/>

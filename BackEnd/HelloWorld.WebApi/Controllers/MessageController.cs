@@ -6,7 +6,7 @@
 namespace HelloWorld.WebApi.Controllers
 {
     using System.Collections.Generic;
-    using HelloWorld.Components;
+    using HelloWorld.Components.Interfaces;
     using HelloWorld.Entities;
     using Microsoft.AspNetCore.Mvc;
 
@@ -22,9 +22,11 @@ namespace HelloWorld.WebApi.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageController"/> class.
         /// </summary>
-        public MessageController()
+        /// <param name="messageComponent">An <see cref="IMessageComponent"/>.</param>
+        public MessageController(
+            IMessageComponent messageComponent)
         {
-            this.messageComponent = new MessageComponent();
+            this.messageComponent = messageComponent;
         }
 
         /// <summary>

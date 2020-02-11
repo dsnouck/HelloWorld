@@ -3,10 +3,11 @@
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace HelloWorld.Repositories
+namespace HelloWorld.Repositories.Implementations
 {
     using System.Collections.Generic;
     using HelloWorld.Entities;
+    using HelloWorld.Repositories.Interfaces;
 
     /// <inheritdoc/>
     public class MessageRepository : IMessageRepository
