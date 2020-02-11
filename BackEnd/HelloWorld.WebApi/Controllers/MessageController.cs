@@ -6,6 +6,7 @@
 namespace HelloWorld.WebApi.Controllers
 {
     using System.Collections.Generic;
+    using HelloWorld.Components;
     using HelloWorld.Entities;
     using Microsoft.AspNetCore.Mvc;
 
@@ -16,22 +17,24 @@ namespace HelloWorld.WebApi.Controllers
     [Route("[controller]")]
     public class MessageController
     {
-        private readonly string text = "Hello, world!";
+        private readonly IMessageComponent messageComponent;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MessageController"/> class.
+        /// </summary>
+        public MessageController()
+        {
+            this.messageComponent = new MessageComponent();
+        }
 
         /// <summary>
         /// Gets all <see cref="Message"/>s.
         /// </summary>
         /// <returns>All <see cref="Message"/>s.</returns>
         [HttpGet]
-        public List<Message> Get()
+        public List<Message> GetAllMessages()
         {
-            return new List<Message>
-            {
-                new Message
-                {
-                    Text = this.text,
-                },
-            };
+            return this.messageComponent.GetAllMessages();
         }
     }
 }
