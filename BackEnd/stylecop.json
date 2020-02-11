@@ -1,0 +1,13 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "dsnouck",
+      "copyrightText": "Copyright (c) {companyName}. All rights reserved.\r\nLicensed under the {licenseName}. See {licenseFile} file in the project root for full license information.",
+      "variables": {
+        "licenseFile": "LICENSE",
+        "licenseName": "MIT License"
+      }
+    }
+  }
+}
