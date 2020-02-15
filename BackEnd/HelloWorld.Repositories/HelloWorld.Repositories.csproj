@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HelloWorld.Entities\HelloWorld.Entities.csproj" />
+    <ProjectReference Include="..\HelloWorld.Database\HelloWorld.Database.csproj" />
   </ItemGroup>
 
 </Project>

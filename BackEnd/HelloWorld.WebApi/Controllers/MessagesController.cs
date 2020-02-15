@@ -1,4 +1,4 @@
-﻿// <copyright file="MessageController.cs" company="dsnouck">
+﻿// <copyright file="MessagesController.cs" company="dsnouck">
 // Copyright (c) dsnouck. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -15,15 +15,15 @@ namespace HelloWorld.WebApi.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class MessageController
+    public class MessagesController
     {
         private readonly IMessageComponent messageComponent;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageController"/> class.
+        /// Initializes a new instance of the <see cref="MessagesController"/> class.
         /// </summary>
         /// <param name="messageComponent">An <see cref="IMessageComponent"/>.</param>
-        public MessageController(
+        public MessagesController(
             IMessageComponent messageComponent)
         {
             this.messageComponent = messageComponent;

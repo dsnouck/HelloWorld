@@ -6,32 +6,30 @@
 namespace HelloWorld.Repositories.Implementations
 {
     using System.Collections.Generic;
+    using System.Linq;
+    using HelloWorld.Database;
     using HelloWorld.Entities;
     using HelloWorld.Repositories.Interfaces;
 
     /// <inheritdoc/>
     public class MessageRepository : IMessageRepository
     {
-        private readonly string text;
+        private readonly HelloWorldContext helloWorldContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageRepository"/> class.
         /// </summary>
-        public MessageRepository()
+        /// <param name="helloWorldContext">A <see cref="HelloWorldContext"/>.</param>
+        public MessageRepository(
+            HelloWorldContext helloWorldContext)
         {
-            this.text = "Hello, world!";
+            this.helloWorldContext = helloWorldContext;
         }
 
         /// <inheritdoc/>
         public List<Message> GetAllMessages()
         {
-            return new List<Message>
-            {
-                new Message
-                {
-                    Text = this.text,
-                },
-            };
+            return this.helloWorldContext.Messages.ToList();
         }
     }
 }
