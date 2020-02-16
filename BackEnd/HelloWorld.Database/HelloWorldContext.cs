@@ -18,7 +18,8 @@ namespace HelloWorld.Database
         /// Initializes a new instance of the <see cref="HelloWorldContext"/> class.
         /// </summary>
         /// <param name="options">The options.</param>
-        public HelloWorldContext(DbContextOptions<HelloWorldContext> options)
+        public HelloWorldContext(
+            DbContextOptions<HelloWorldContext> options)
             : base(options)
         {
         }

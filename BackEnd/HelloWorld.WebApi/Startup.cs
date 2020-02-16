@@ -24,7 +24,8 @@ namespace HelloWorld.WebApi
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="configuration">An <see cref="IConfiguration"/>.</param>
-        public Startup(IConfiguration configuration)
+        public Startup(
+            IConfiguration configuration)
         {
             this.Configuration = configuration;
         }

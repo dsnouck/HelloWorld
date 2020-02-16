@@ -2,13 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HelloWorld.Database.Migrations
 {
     [DbContext(typeof(HelloWorldContext))]
-    partial class HelloWorldContextModelSnapshot : ModelSnapshot
+    [Migration("20200215235805_RenameTextToContent")]
+    partial class RenameTextToContent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc/>
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
