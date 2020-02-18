@@ -20,7 +20,7 @@ namespace HelloWorld.RepositoriesTests
     public class MessageRepositoryTests : IDisposable
     {
         private readonly MessageRepository systemUnderTest;
-        private readonly HelloWorldContext helloWorldContext;
+        private readonly HelloWorldContext helloWorldContextTestDouble;
         private bool disposed = false;
 
         /// <summary>
@@ -31,8 +31,8 @@ namespace HelloWorld.RepositoriesTests
             var options = new DbContextOptionsBuilder<HelloWorldContext>()
                 .UseInMemoryDatabase("HelloWorld")
                 .Options;
-            this.helloWorldContext = new HelloWorldContext(options);
-            this.systemUnderTest = new MessageRepository(this.helloWorldContext);
+            this.helloWorldContextTestDouble = new HelloWorldContext(options);
+            this.systemUnderTest = new MessageRepository(this.helloWorldContextTestDouble);
         }
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace HelloWorld.RepositoriesTests
                 Content = "Hello, world.",
             };
 
-            this.helloWorldContext.Messages?.Add(message);
-            this.helloWorldContext.SaveChanges();
+            this.helloWorldContextTestDouble.Messages?.Add(message);
+            this.helloWorldContextTestDouble.SaveChanges();
 
             // Act.
             var result = this.systemUnderTest.GetAllMessages();
@@ -77,7 +77,7 @@ namespace HelloWorld.RepositoriesTests
 
             if (disposing)
             {
-                this.helloWorldContext.Dispose();
+                this.helloWorldContextTestDouble.Dispose();
             }
 
             this.disposed = true;
