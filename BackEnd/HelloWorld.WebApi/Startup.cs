@@ -5,6 +5,9 @@
 
 namespace HelloWorld.WebApi
 {
+    using System;
+    using System.IO;
+    using System.Reflection;
     using HelloWorld.Components;
     using HelloWorld.Database;
     using HelloWorld.Repositories;
@@ -14,6 +17,7 @@ namespace HelloWorld.WebApi
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.OpenApi.Models;
 
     /// <summary>
     /// The startup class.
@@ -42,6 +46,10 @@ namespace HelloWorld.WebApi
         /// <param name="webHostEnvironment">An <see cref="IWebHostEnvironment"/>.</param>
         public static void Configure(IApplicationBuilder applicationBuilder, IWebHostEnvironment webHostEnvironment)
         {
+            applicationBuilder.UseSwagger();
+            applicationBuilder.UseSwaggerUI(options =>
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "HelloWorld"));
+
             if (webHostEnvironment.IsDevelopment())
             {
                 applicationBuilder.UseDeveloperExceptionPage();
@@ -64,6 +72,13 @@ namespace HelloWorld.WebApi
             services.AddRepositories();
             services.AddComponents();
             services.AddControllers();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "HelloWorld", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
+            });
         }
     }
 }
