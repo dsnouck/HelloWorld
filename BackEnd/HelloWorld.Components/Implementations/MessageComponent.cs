@@ -26,6 +26,12 @@ namespace HelloWorld.Components.Implementations
         }
 
         /// <inheritdoc/>
+        public Message AddMessage(Message message)
+        {
+            return this.messageRepository.AddMessage(message);
+        }
+
+        /// <inheritdoc/>
         public List<Message> GetAllMessages()
         {
             return this.messageRepository.GetAllMessages();

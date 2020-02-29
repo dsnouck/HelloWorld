@@ -14,6 +14,13 @@ namespace HelloWorld.Repositories.Interfaces
     public interface IMessageRepository
     {
         /// <summary>
+        /// Adds a <see cref="Message"/>.
+        /// </summary>
+        /// <param name="message">A <see cref="Message"/>.</param>
+        /// <returns>The added <see cref="Message"/>.</returns>
+        Message AddMessage(Message message);
+
+        /// <summary>
         /// Gets all <see cref="Message"/>s.
         /// </summary>
         /// <returns>All <see cref="Message"/>s.</returns>

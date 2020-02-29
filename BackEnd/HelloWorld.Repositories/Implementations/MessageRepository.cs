@@ -27,6 +27,14 @@ namespace HelloWorld.Repositories.Implementations
         }
 
         /// <inheritdoc/>
+        public Message AddMessage(Message message)
+        {
+            this.helloWorldContext.Messages?.Add(message);
+            this.helloWorldContext.SaveChanges();
+            return message;
+        }
+
+        /// <inheritdoc/>
         public List<Message> GetAllMessages()
         {
             return this.helloWorldContext.Messages.ToList();

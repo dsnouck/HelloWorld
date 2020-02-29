@@ -30,6 +30,17 @@ namespace HelloWorld.WebApi.Controllers
         }
 
         /// <summary>
+        /// Adds a <see cref="Message"/>.
+        /// </summary>
+        /// <param name="message">A <see cref="Message"/>.</param>
+        /// <returns>The added <see cref="Message"/>.</returns>
+        [HttpPost]
+        public Message AddMessage(Message message)
+        {
+            return this.messageComponent.AddMessage(message);
+        }
+
+        /// <summary>
         /// Gets all <see cref="Message"/>s.
         /// </summary>
         /// <returns>All <see cref="Message"/>s.</returns>
