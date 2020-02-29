@@ -42,5 +42,11 @@ namespace HelloWorld.Components.Implementations
         {
             return this.messageRepository.GetMessage(id);
         }
+
+        /// <inheritdoc/>
+        public Message UpdateMessage(Message message)
+        {
+            return this.messageRepository.UpdateMessage(message);
+        }
     }
 }

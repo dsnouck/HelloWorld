@@ -32,5 +32,12 @@ namespace HelloWorld.Components.Interfaces
         /// <param name="id">The id.</param>
         /// <returns>The <see cref="Message"/> with the given <paramref name="id"/>.</returns>
         Message GetMessage(long id);
+
+        /// <summary>
+        /// Updates the given <see cref="Message"/>.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>The updated <see cref="Message"/>.</returns>
+        Message UpdateMessage(Message message);
     }
 }

@@ -5,6 +5,7 @@
 
 namespace HelloWorld.WebApi.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using HelloWorld.Components.Interfaces;
     using HelloWorld.Entities;
@@ -59,6 +60,24 @@ namespace HelloWorld.WebApi.Controllers
         public Message GetMessage(long id)
         {
             return this.messageComponent.GetMessage(id);
+        }
+
+        /// <summary>
+        /// Updates the <see cref="Message"/> with the given <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="message">The message.</param>
+        /// <returns>The updated <see cref="Message"/>.</returns>
+        [HttpPut("{id}")]
+        public Message UpdateMessage(long id, Message message)
+        {
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
+            message.Id = id;
+            return this.messageComponent.UpdateMessage(message);
         }
     }
 }

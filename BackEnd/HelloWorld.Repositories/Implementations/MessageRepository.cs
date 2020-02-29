@@ -45,5 +45,13 @@ namespace HelloWorld.Repositories.Implementations
         {
             return this.helloWorldContext.Messages.Single(message => message.Id == id);
         }
+
+        /// <inheritdoc/>
+        public Message UpdateMessage(Message message)
+        {
+            this.helloWorldContext.Messages?.Update(message);
+            this.helloWorldContext.SaveChanges();
+            return message;
+        }
     }
 }
