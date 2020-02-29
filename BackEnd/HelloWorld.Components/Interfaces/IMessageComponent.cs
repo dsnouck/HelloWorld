@@ -34,6 +34,12 @@ namespace HelloWorld.Components.Interfaces
         Message GetMessage(long id);
 
         /// <summary>
+        /// Removes the <see cref="Message"/> with the given <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        void RemoveMessage(long id);
+
+        /// <summary>
         /// Updates the given <see cref="Message"/>.
         /// </summary>
         /// <param name="message">The message.</param>

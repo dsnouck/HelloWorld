@@ -44,6 +44,12 @@ namespace HelloWorld.Components.Implementations
         }
 
         /// <inheritdoc/>
+        public void RemoveMessage(long id)
+        {
+            this.messageRepository.RemoveMessage(id);
+        }
+
+        /// <inheritdoc/>
         public Message UpdateMessage(Message message)
         {
             return this.messageRepository.UpdateMessage(message);

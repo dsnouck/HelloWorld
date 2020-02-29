@@ -47,6 +47,14 @@ namespace HelloWorld.Repositories.Implementations
         }
 
         /// <inheritdoc/>
+        public void RemoveMessage(long id)
+        {
+            var message = this.helloWorldContext.Messages.Single(message => message.Id == id);
+            this.helloWorldContext.Messages?.Remove(message);
+            this.helloWorldContext.SaveChanges();
+        }
+
+        /// <inheritdoc/>
         public Message UpdateMessage(Message message)
         {
             this.helloWorldContext.Messages?.Update(message);

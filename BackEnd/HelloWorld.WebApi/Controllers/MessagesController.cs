@@ -63,6 +63,16 @@ namespace HelloWorld.WebApi.Controllers
         }
 
         /// <summary>
+        /// Removes the <see cref="Message"/> with the given <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        [HttpDelete("{id}")]
+        public void RemoveMessage(long id)
+        {
+            this.messageComponent.RemoveMessage(id);
+        }
+
+        /// <summary>
         /// Updates the <see cref="Message"/> with the given <paramref name="id"/>.
         /// </summary>
         /// <param name="id">The id.</param>
