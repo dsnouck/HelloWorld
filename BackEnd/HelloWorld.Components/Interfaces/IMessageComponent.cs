@@ -18,5 +18,12 @@ namespace HelloWorld.Components.Interfaces
         /// </summary>
         /// <returns>All <see cref="Message"/>s.</returns>
         List<Message> GetAllMessages();
+
+        /// <summary>
+        /// Gets the <see cref="Message"/> with the given <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <returns>The <see cref="Message"/> with the given <paramref name="id"/>.</returns>
+        Message GetMessage(long id);
     }
 }

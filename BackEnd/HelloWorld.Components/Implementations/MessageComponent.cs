@@ -30,5 +30,11 @@ namespace HelloWorld.Components.Implementations
         {
             return this.messageRepository.GetAllMessages();
         }
+
+        /// <inheritdoc/>
+        public Message GetMessage(long id)
+        {
+            return this.messageRepository.GetMessage(id);
+        }
     }
 }

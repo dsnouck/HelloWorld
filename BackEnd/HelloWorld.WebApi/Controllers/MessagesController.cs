@@ -38,5 +38,16 @@ namespace HelloWorld.WebApi.Controllers
         {
             return this.messageComponent.GetAllMessages();
         }
+
+        /// <summary>
+        /// Gets the <see cref="Message"/> with the given <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <returns>The <see cref="Message"/> with the given <paramref name="id"/>.</returns>
+        [HttpGet("{id}")]
+        public Message GetMessage(long id)
+        {
+            return this.messageComponent.GetMessage(id);
+        }
     }
 }
