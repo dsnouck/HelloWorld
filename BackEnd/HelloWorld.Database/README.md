@@ -1,4 +1,6 @@
-﻿Migrations can be added with
+﻿# HelloWorld.Database
+
+Migrations can be added with
 ```
 dotnet ef migrations add NameOfMigration --startup-project ../HelloWorld.WebApi/HelloWorld.WebApi.csproj
 ```
