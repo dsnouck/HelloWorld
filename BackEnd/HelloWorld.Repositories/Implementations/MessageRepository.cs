@@ -5,6 +5,7 @@
 
 namespace HelloWorld.Repositories.Implementations
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using HelloWorld.Database;
@@ -27,31 +28,29 @@ namespace HelloWorld.Repositories.Implementations
         }
 
         /// <inheritdoc/>
-        public Message AddMessage(Message message)
-        {
-            this.helloWorldContext.Messages?.Add(message);
-            this.helloWorldContext.SaveChanges();
-            return message;
-        }
-
-        /// <inheritdoc/>
         public List<Message> GetAllMessages()
         {
             return this.helloWorldContext.Messages.ToList();
         }
 
         /// <inheritdoc/>
-        public Message GetMessage(long id)
+        public Message AddMessage(Message message)
         {
-            return this.helloWorldContext.Messages.Single(message => message.Id == id);
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
+            message.Id = Guid.Empty;
+            this.helloWorldContext.Messages?.Add(message);
+            this.helloWorldContext.SaveChanges();
+            return message;
         }
 
         /// <inheritdoc/>
-        public void RemoveMessage(long id)
+        public Message GetMessage(Guid id)
         {
-            var message = this.helloWorldContext.Messages.Single(message => message.Id == id);
-            this.helloWorldContext.Messages?.Remove(message);
-            this.helloWorldContext.SaveChanges();
+            return this.helloWorldContext.Messages.Single(message => message.Id == id);
         }
 
         /// <inheritdoc/>
@@ -60,6 +59,14 @@ namespace HelloWorld.Repositories.Implementations
             this.helloWorldContext.Messages?.Update(message);
             this.helloWorldContext.SaveChanges();
             return message;
+        }
+
+        /// <inheritdoc/>
+        public void RemoveMessage(Guid id)
+        {
+            var message = this.helloWorldContext.Messages.Single(message => message.Id == id);
+            this.helloWorldContext.Messages?.Remove(message);
+            this.helloWorldContext.SaveChanges();
         }
     }
 }

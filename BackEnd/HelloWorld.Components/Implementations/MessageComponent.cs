@@ -5,6 +5,7 @@
 
 namespace HelloWorld.Components.Implementations
 {
+    using System;
     using System.Collections.Generic;
     using HelloWorld.Components.Interfaces;
     using HelloWorld.Entities;
@@ -26,33 +27,33 @@ namespace HelloWorld.Components.Implementations
         }
 
         /// <inheritdoc/>
-        public Message AddMessage(Message message)
-        {
-            return this.messageRepository.AddMessage(message);
-        }
-
-        /// <inheritdoc/>
         public List<Message> GetAllMessages()
         {
             return this.messageRepository.GetAllMessages();
         }
 
         /// <inheritdoc/>
-        public Message GetMessage(long id)
+        public Message AddMessage(Message message)
         {
-            return this.messageRepository.GetMessage(id);
+            return this.messageRepository.AddMessage(message);
         }
 
         /// <inheritdoc/>
-        public void RemoveMessage(long id)
+        public Message GetMessage(Guid id)
         {
-            this.messageRepository.RemoveMessage(id);
+            return this.messageRepository.GetMessage(id);
         }
 
         /// <inheritdoc/>
         public Message UpdateMessage(Message message)
         {
             return this.messageRepository.UpdateMessage(message);
+        }
+
+        /// <inheritdoc/>
+        public void RemoveMessage(Guid id)
+        {
+            this.messageRepository.RemoveMessage(id);
         }
     }
 }

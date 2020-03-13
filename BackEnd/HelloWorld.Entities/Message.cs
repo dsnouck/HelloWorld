@@ -5,6 +5,10 @@
 
 namespace HelloWorld.Entities
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     /// <summary>
     /// Represents a message.
     /// </summary>
@@ -13,10 +17,12 @@ namespace HelloWorld.Entities
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
-        public long Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the text.
+        /// Gets or sets the content.
         /// </summary>
         public string Content { get; set; } = string.Empty;
     }

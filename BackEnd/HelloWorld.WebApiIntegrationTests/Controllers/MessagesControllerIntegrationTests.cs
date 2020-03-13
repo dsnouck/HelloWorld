@@ -6,8 +6,12 @@
 namespace HelloWorld.WebApiIntegrationTests.Controllers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Text.Json;
     using System.Threading.Tasks;
     using FluentAssertions;
+    using FluentAssertions.Equivalency;
+    using HelloWorld.Entities;
     using HelloWorld.WebApi;
     using HelloWorld.WebApi.Controllers;
     using Xunit;
@@ -18,6 +22,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
     public class MessagesControllerIntegrationTests : IClassFixture<InMemoryWebApplicationFactory<Startup>>
     {
         private readonly InMemoryWebApplicationFactory<Startup> factory;
+        private readonly JsonSerializerOptions jsonSerializerOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessagesControllerIntegrationTests"/> class.
@@ -27,6 +32,10 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
             InMemoryWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
+            this.jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
         }
 
         /// <summary>
@@ -47,7 +56,20 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
             response.EnsureSuccessStatusCode();
             response.Content.Headers.ContentType.ToString().Should().Be("application/json; charset=utf-8");
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            content.Should().Be(@"[{""id"":1,""content"":""Hello, world!""}]");
+            var messages = JsonSerializer.Deserialize<List<Message>>(content, this.jsonSerializerOptions);
+            messages.Should().BeEquivalentTo(
+            new List<Message>
+            {
+                new Message
+                {
+                    Content = "Hello, world!",
+                },
+            }, IgnoreId);
+        }
+
+        private static EquivalencyAssertionOptions<Message> IgnoreId(EquivalencyAssertionOptions<Message> options)
+        {
+            return options.Excluding(message => message.Id);
         }
     }
 }

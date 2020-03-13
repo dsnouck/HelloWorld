@@ -1,4 +1,4 @@
-﻿// <copyright file="20200215235805_RenameTextToContent.cs" company="dsnouck">
+﻿// <copyright file="20200307221443_AddMessage.cs" company="dsnouck">
 // Copyright (c) dsnouck. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -9,9 +9,9 @@ namespace HelloWorld.Database.Migrations
     using Microsoft.EntityFrameworkCore.Migrations;
 
     /// <summary>
-    /// A <see cref="Migration"/> that rename Text to Content.
+    /// A <see cref="Migration"/> that adds the message table.
     /// </summary>
-    public partial class RenameTextToContent : Migration
+    public partial class AddMessage : Migration
     {
         /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,10 +21,17 @@ namespace HelloWorld.Database.Migrations
                 throw new ArgumentNullException(nameof(migrationBuilder));
             }
 
-            migrationBuilder.RenameColumn(
-                table: "Message",
-                name: "Text",
-                newName: "Content");
+            migrationBuilder.CreateTable(
+                name: "Message",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Content = table.Column<string>(nullable: false),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Message", x => x.Id);
+                });
         }
 
         /// <inheritdoc/>
@@ -35,10 +42,8 @@ namespace HelloWorld.Database.Migrations
                 throw new ArgumentNullException(nameof(migrationBuilder));
             }
 
-            migrationBuilder.RenameColumn(
-                table: "Message",
-                name: "Content",
-                newName: "Text");
+            migrationBuilder.DropTable(
+                name: "Message");
         }
     }
 }

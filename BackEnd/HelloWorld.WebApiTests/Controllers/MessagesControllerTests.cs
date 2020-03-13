@@ -5,6 +5,7 @@
 
 namespace HelloWorld.WebApiTests.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using FluentAssertions;
     using HelloWorld.Components.Interfaces;
@@ -42,7 +43,7 @@ namespace HelloWorld.WebApiTests.Controllers
             {
                 new Message
                 {
-                    Id = 1L,
+                    Id = Guid.NewGuid(),
                     Content = "Hello, world!",
                 },
             };

@@ -5,6 +5,7 @@
 
 namespace HelloWorld.ComponentsTests
 {
+    using System;
     using System.Collections.Generic;
     using FluentAssertions;
     using HelloWorld.Components.Implementations;
@@ -42,7 +43,7 @@ namespace HelloWorld.ComponentsTests
             {
                 new Message
                 {
-                    Id = 1L,
+                    Id = Guid.NewGuid(),
                     Content = "Hello, world!",
                 },
             };

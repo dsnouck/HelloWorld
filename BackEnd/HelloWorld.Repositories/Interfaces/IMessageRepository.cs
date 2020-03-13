@@ -5,6 +5,7 @@
 
 namespace HelloWorld.Repositories.Interfaces
 {
+    using System;
     using System.Collections.Generic;
     using HelloWorld.Entities;
 
@@ -14,6 +15,12 @@ namespace HelloWorld.Repositories.Interfaces
     public interface IMessageRepository
     {
         /// <summary>
+        /// Gets all <see cref="Message"/>s.
+        /// </summary>
+        /// <returns>All <see cref="Message"/>s.</returns>
+        List<Message> GetAllMessages();
+
+        /// <summary>
         /// Adds a <see cref="Message"/>.
         /// </summary>
         /// <param name="message">A <see cref="Message"/>.</param>
@@ -21,23 +28,11 @@ namespace HelloWorld.Repositories.Interfaces
         Message AddMessage(Message message);
 
         /// <summary>
-        /// Gets all <see cref="Message"/>s.
-        /// </summary>
-        /// <returns>All <see cref="Message"/>s.</returns>
-        List<Message> GetAllMessages();
-
-        /// <summary>
         /// Gets the <see cref="Message"/> with the given <paramref name="id"/>.
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns>The <see cref="Message"/> with the given <paramref name="id"/>.</returns>
-        Message GetMessage(long id);
-
-        /// <summary>
-        /// Removes the <see cref="Message"/> with the given <paramref name="id"/>.
-        /// </summary>
-        /// <param name="id">The id.</param>
-        void RemoveMessage(long id);
+        Message GetMessage(Guid id);
 
         /// <summary>
         /// Updates the given <see cref="Message"/>.
@@ -45,5 +40,11 @@ namespace HelloWorld.Repositories.Interfaces
         /// <param name="message">The message.</param>
         /// <returns>The updated <see cref="Message"/>.</returns>
         Message UpdateMessage(Message message);
+
+        /// <summary>
+        /// Removes the <see cref="Message"/> with the given <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        void RemoveMessage(Guid id);
     }
 }

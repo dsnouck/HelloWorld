@@ -12,10 +12,10 @@ namespace HelloWorld.WebApi.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
-    /// A controller for <see cref="Message"/>s.
+    /// A controller for messages.
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("messages")]
     public class MessagesController
     {
         private readonly IMessageComponent messageComponent;
@@ -31,20 +31,9 @@ namespace HelloWorld.WebApi.Controllers
         }
 
         /// <summary>
-        /// Adds a <see cref="Message"/>.
+        /// Gets all messages.
         /// </summary>
-        /// <param name="message">A <see cref="Message"/>.</param>
-        /// <returns>The added <see cref="Message"/>.</returns>
-        [HttpPost]
-        public Message AddMessage(Message message)
-        {
-            return this.messageComponent.AddMessage(message);
-        }
-
-        /// <summary>
-        /// Gets all <see cref="Message"/>s.
-        /// </summary>
-        /// <returns>All <see cref="Message"/>s.</returns>
+        /// <returns>All messages.</returns>
         [HttpGet]
         public List<Message> GetAllMessages()
         {
@@ -52,34 +41,41 @@ namespace HelloWorld.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets the <see cref="Message"/> with the given <paramref name="id"/>.
+        /// Adds a message.
+        /// </summary>
+        /// <param name="message">A message.</param>
+        /// <returns>The added message.</returns>
+        [HttpPost]
+        public Message AddMessage(Message message)
+        {
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
+            message.Id = Guid.Empty;
+            return this.messageComponent.AddMessage(message);
+        }
+
+        /// <summary>
+        /// Gets the message with the given <paramref name="id"/>.
         /// </summary>
         /// <param name="id">The id.</param>
-        /// <returns>The <see cref="Message"/> with the given <paramref name="id"/>.</returns>
+        /// <returns>The message with the given <paramref name="id"/>.</returns>
         [HttpGet("{id}")]
-        public Message GetMessage(long id)
+        public Message GetMessage(Guid id)
         {
             return this.messageComponent.GetMessage(id);
         }
 
         /// <summary>
-        /// Removes the <see cref="Message"/> with the given <paramref name="id"/>.
-        /// </summary>
-        /// <param name="id">The id.</param>
-        [HttpDelete("{id}")]
-        public void RemoveMessage(long id)
-        {
-            this.messageComponent.RemoveMessage(id);
-        }
-
-        /// <summary>
-        /// Updates the <see cref="Message"/> with the given <paramref name="id"/>.
+        /// Updates the message with the given <paramref name="id"/>.
         /// </summary>
         /// <param name="id">The id.</param>
         /// <param name="message">The message.</param>
-        /// <returns>The updated <see cref="Message"/>.</returns>
+        /// <returns>The updated message.</returns>
         [HttpPut("{id}")]
-        public Message UpdateMessage(long id, Message message)
+        public Message UpdateMessage(Guid id, Message message)
         {
             if (message == null)
             {
@@ -88,6 +84,16 @@ namespace HelloWorld.WebApi.Controllers
 
             message.Id = id;
             return this.messageComponent.UpdateMessage(message);
+        }
+
+        /// <summary>
+        /// Removes the message with the given <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        [HttpDelete("{id}")]
+        public void RemoveMessage(Guid id)
+        {
+            this.messageComponent.RemoveMessage(id);
         }
     }
 }
