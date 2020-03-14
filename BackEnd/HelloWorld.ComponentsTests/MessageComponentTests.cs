@@ -9,7 +9,7 @@ namespace HelloWorld.ComponentsTests
     using System.Collections.Generic;
     using FluentAssertions;
     using HelloWorld.Components.Implementations;
-    using HelloWorld.Entities;
+    using HelloWorld.Models;
     using HelloWorld.Repositories.Interfaces;
     using Moq;
     using Xunit;

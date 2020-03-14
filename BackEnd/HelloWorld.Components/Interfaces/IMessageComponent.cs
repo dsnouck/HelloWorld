@@ -7,7 +7,7 @@ namespace HelloWorld.Components.Interfaces
 {
     using System;
     using System.Collections.Generic;
-    using HelloWorld.Entities;
+    using HelloWorld.Models;
 
     /// <summary>
     /// Provides operations concerning <see cref="Message"/>s.

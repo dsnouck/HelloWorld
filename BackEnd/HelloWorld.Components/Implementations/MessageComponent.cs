@@ -8,7 +8,7 @@ namespace HelloWorld.Components.Implementations
     using System;
     using System.Collections.Generic;
     using HelloWorld.Components.Interfaces;
-    using HelloWorld.Entities;
+    using HelloWorld.Models;
     using HelloWorld.Repositories.Interfaces;
 
     /// <inheritdoc/>

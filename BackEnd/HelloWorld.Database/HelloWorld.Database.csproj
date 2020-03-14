@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HelloWorld.Entities\HelloWorld.Entities.csproj" />
+    <ProjectReference Include="..\HelloWorld.Models\HelloWorld.Models.csproj" />
   </ItemGroup>
 
 </Project>

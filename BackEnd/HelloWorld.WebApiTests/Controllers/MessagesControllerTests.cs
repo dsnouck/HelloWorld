@@ -9,7 +9,7 @@ namespace HelloWorld.WebApiTests.Controllers
     using System.Collections.Generic;
     using FluentAssertions;
     using HelloWorld.Components.Interfaces;
-    using HelloWorld.Entities;
+    using HelloWorld.Models;
     using HelloWorld.WebApi.Controllers;
     using Moq;
     using Xunit;
@@ -39,7 +39,7 @@ namespace HelloWorld.WebApiTests.Controllers
         public void GivenMessagesWhenGetAllMessagesIsCalledThenAllMessagesAreReturned()
         {
             // Arrange.
-            var messages = new List<Entities.Message>
+            var messages = new List<Message>
             {
                 new Message
                 {

@@ -11,7 +11,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
     using System.Threading.Tasks;
     using FluentAssertions;
     using FluentAssertions.Equivalency;
-    using HelloWorld.Entities;
+    using HelloWorld.Models;
     using HelloWorld.WebApi;
     using HelloWorld.WebApi.Controllers;
     using Xunit;

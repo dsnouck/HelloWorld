@@ -8,7 +8,7 @@ namespace HelloWorld.WebApi.Controllers
     using System;
     using System.Collections.Generic;
     using HelloWorld.Components.Interfaces;
-    using HelloWorld.Entities;
+    using HelloWorld.Models;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>

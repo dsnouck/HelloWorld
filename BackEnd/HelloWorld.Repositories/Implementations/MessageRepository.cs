@@ -9,7 +9,7 @@ namespace HelloWorld.Repositories.Implementations
     using System.Collections.Generic;
     using System.Linq;
     using HelloWorld.Database;
-    using HelloWorld.Entities;
+    using HelloWorld.Models;
     using HelloWorld.Repositories.Interfaces;
 
     /// <inheritdoc/>

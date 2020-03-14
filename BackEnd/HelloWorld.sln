@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.Components", "He
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.Repositories", "HelloWorld.Repositories\HelloWorld.Repositories.csproj", "{1D150EFE-FC1B-410B-BA17-42264314BB64}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.Entities", "HelloWorld.Entities\HelloWorld.Entities.csproj", "{978E54D5-4EE3-44F2-9E1A-9FD75C743B97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.Models", "HelloWorld.Models\HelloWorld.Models.csproj", "{978E54D5-4EE3-44F2-9E1A-9FD75C743B97}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.RepositoriesTests", "HelloWorld.RepositoriesTests\HelloWorld.RepositoriesTests.csproj", "{8EC3EE9D-3746-4906-9F3C-50B1A833ECCF}"
 EndProject

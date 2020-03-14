@@ -8,7 +8,7 @@ namespace HelloWorld.WebApiIntegrationTests
     using System;
     using System.Linq;
     using HelloWorld.Database;
-    using HelloWorld.Entities;
+    using HelloWorld.Models;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.EntityFrameworkCore;

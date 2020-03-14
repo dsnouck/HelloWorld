@@ -9,7 +9,7 @@ namespace HelloWorld.RepositoriesTests
     using System.Collections.Generic;
     using FluentAssertions;
     using HelloWorld.Database;
-    using HelloWorld.Entities;
+    using HelloWorld.Models;
     using HelloWorld.Repositories.Implementations;
     using Microsoft.EntityFrameworkCore;
     using Xunit;

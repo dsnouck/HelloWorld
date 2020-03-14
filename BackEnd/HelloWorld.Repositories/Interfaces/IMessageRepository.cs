@@ -7,7 +7,7 @@ namespace HelloWorld.Repositories.Interfaces
 {
     using System;
     using System.Collections.Generic;
-    using HelloWorld.Entities;
+    using HelloWorld.Models;
 
     /// <summary>
     /// Provides repository operations concerning <see cref="Message"/>s.

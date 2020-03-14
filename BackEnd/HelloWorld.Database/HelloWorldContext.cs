@@ -6,7 +6,7 @@
 namespace HelloWorld.Database
 {
     using System;
-    using HelloWorld.Entities;
+    using HelloWorld.Models;
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
