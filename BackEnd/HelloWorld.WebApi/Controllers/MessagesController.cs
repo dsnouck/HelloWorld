@@ -7,6 +7,7 @@ namespace HelloWorld.WebApi.Controllers
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using HelloWorld.Components.Interfaces;
     using HelloWorld.Models;
     using Microsoft.AspNetCore.Mvc;
@@ -35,9 +36,16 @@ namespace HelloWorld.WebApi.Controllers
         /// </summary>
         /// <returns>All messages.</returns>
         [HttpGet]
-        public List<Message> GetAllMessages()
+        public List<MessageViewModel> GetAllMessages()
         {
-            return this.messageComponent.GetAllMessages();
+            return this.messageComponent
+                .GetAllMessages()
+                .Select(message => new MessageViewModel
+                {
+                    Id = message.Id,
+                    Content = message.Content,
+                })
+                .ToList();
         }
 
         /// <summary>
@@ -46,15 +54,25 @@ namespace HelloWorld.WebApi.Controllers
         /// <param name="message">A message.</param>
         /// <returns>The added message.</returns>
         [HttpPost]
-        public Message AddMessage(Message message)
+        public MessageViewModel AddMessage(MessageAddEditViewModel message)
         {
             if (message == null)
             {
                 throw new ArgumentNullException(nameof(message));
             }
 
-            message.Id = Guid.Empty;
-            return this.messageComponent.AddMessage(message);
+            var newMessage = new Message
+            {
+                Content = message.Content,
+            };
+
+            this.messageComponent.AddMessage(newMessage);
+
+            return new MessageViewModel
+            {
+                Id = newMessage.Id,
+                Content = newMessage.Content,
+            };
         }
 
         /// <summary>
@@ -63,9 +81,14 @@ namespace HelloWorld.WebApi.Controllers
         /// <param name="id">The id.</param>
         /// <returns>The message with the given <paramref name="id"/>.</returns>
         [HttpGet("{id}")]
-        public Message GetMessage(Guid id)
+        public MessageViewModel GetMessage(Guid id)
         {
-            return this.messageComponent.GetMessage(id);
+            var message = this.messageComponent.GetMessage(id);
+            return new MessageViewModel
+            {
+                Id = message.Id,
+                Content = message.Content,
+            };
         }
 
         /// <summary>
@@ -75,15 +98,26 @@ namespace HelloWorld.WebApi.Controllers
         /// <param name="message">The message.</param>
         /// <returns>The updated message.</returns>
         [HttpPut("{id}")]
-        public Message UpdateMessage(Guid id, Message message)
+        public MessageViewModel UpdateMessage(Guid id, MessageAddEditViewModel message)
         {
             if (message == null)
             {
                 throw new ArgumentNullException(nameof(message));
             }
 
-            message.Id = id;
-            return this.messageComponent.UpdateMessage(message);
+            var updateMessage = new Message
+            {
+                Id = id,
+                Content = message.Content,
+            };
+
+            this.messageComponent.UpdateMessage(updateMessage);
+
+            return new MessageViewModel
+            {
+                Id = updateMessage.Id,
+                Content = updateMessage.Content,
+            };
         }
 
         /// <summary>
