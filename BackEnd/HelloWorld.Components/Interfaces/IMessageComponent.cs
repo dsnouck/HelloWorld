@@ -42,9 +42,9 @@ namespace HelloWorld.Components.Interfaces
         Message UpdateMessage(Message message);
 
         /// <summary>
-        /// Removes the <see cref="Message"/> with the given <paramref name="id"/>.
+        /// Removes the given <see cref="Message"/>.
         /// </summary>
-        /// <param name="id">The id.</param>
-        void RemoveMessage(Guid id);
+        /// <param name="message">The message.</param>
+        void RemoveMessage(Message message);
     }
 }

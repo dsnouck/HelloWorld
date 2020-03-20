@@ -51,9 +51,9 @@ namespace HelloWorld.Components.Implementations
         }
 
         /// <inheritdoc/>
-        public void RemoveMessage(Guid id)
+        public void RemoveMessage(Message message)
         {
-            this.messageRepository.RemoveMessage(id);
+            this.messageRepository.RemoveMessage(message);
         }
     }
 }

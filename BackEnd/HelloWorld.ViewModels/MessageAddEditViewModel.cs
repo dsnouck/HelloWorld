@@ -5,8 +5,6 @@
 
 namespace HelloWorld.Models
 {
-    using System;
-
     /// <summary>
     /// Represents a view model for adding or editing a message.
     /// </summary>

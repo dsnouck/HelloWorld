@@ -6,18 +6,18 @@
 namespace HelloWorld.WebApi.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using HelloWorld.Components.Interfaces;
     using HelloWorld.Models;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     /// A controller for messages.
     /// </summary>
     [ApiController]
-    [Route("messages")]
-    public class MessagesController
+    [Route("[controller]")]
+    public class MessagesController : Controller
     {
         private readonly IMessageComponent messageComponent;
 
@@ -36,9 +36,10 @@ namespace HelloWorld.WebApi.Controllers
         /// </summary>
         /// <returns>All messages.</returns>
         [HttpGet]
-        public List<MessageViewModel> GetAllMessages()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GetAllMessages()
         {
-            return this.messageComponent
+            var allMessageViewModels = this.messageComponent
                 .GetAllMessages()
                 .Select(message => new MessageViewModel
                 {
@@ -46,33 +47,39 @@ namespace HelloWorld.WebApi.Controllers
                     Content = message.Content,
                 })
                 .ToList();
+
+            return this.Ok(allMessageViewModels);
         }
 
         /// <summary>
         /// Adds a message.
         /// </summary>
-        /// <param name="message">A message.</param>
+        /// <param name="messageAddEditViewModel">A message.</param>
         /// <returns>The added message.</returns>
         [HttpPost]
-        public MessageViewModel AddMessage(MessageAddEditViewModel message)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult AddMessage(MessageAddEditViewModel messageAddEditViewModel)
         {
-            if (message == null)
+            if (messageAddEditViewModel == null)
             {
-                throw new ArgumentNullException(nameof(message));
+                throw new ArgumentNullException(nameof(messageAddEditViewModel));
             }
 
-            var newMessage = new Message
+            var message = new Message
             {
+                Content = messageAddEditViewModel.Content,
+            };
+
+            this.messageComponent.AddMessage(message);
+
+            var messageViewModel = new MessageViewModel
+            {
+                Id = message.Id,
                 Content = message.Content,
             };
 
-            this.messageComponent.AddMessage(newMessage);
-
-            return new MessageViewModel
-            {
-                Id = newMessage.Id,
-                Content = newMessage.Content,
-            };
+            var uri = new Uri($"{this.Request.Path}/{messageViewModel.Id}", UriKind.Relative);
+            return this.Created(uri, messageViewModel);
         }
 
         /// <summary>
@@ -81,53 +88,79 @@ namespace HelloWorld.WebApi.Controllers
         /// <param name="id">The id.</param>
         /// <returns>The message with the given <paramref name="id"/>.</returns>
         [HttpGet("{id}")]
-        public MessageViewModel GetMessage(Guid id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GetMessage(Guid id)
         {
             var message = this.messageComponent.GetMessage(id);
-            return new MessageViewModel
+            if (message == null)
+            {
+                return this.NotFound();
+            }
+
+            var messageViewModel = new MessageViewModel
             {
                 Id = message.Id,
                 Content = message.Content,
             };
+
+            return this.Ok(messageViewModel);
         }
 
         /// <summary>
         /// Updates the message with the given <paramref name="id"/>.
         /// </summary>
         /// <param name="id">The id.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="messageAddEditViewModel">The message.</param>
         /// <returns>The updated message.</returns>
         [HttpPut("{id}")]
-        public MessageViewModel UpdateMessage(Guid id, MessageAddEditViewModel message)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult UpdateMessage(Guid id, MessageAddEditViewModel messageAddEditViewModel)
         {
-            if (message == null)
+            if (messageAddEditViewModel == null)
             {
-                throw new ArgumentNullException(nameof(message));
+                throw new ArgumentNullException(nameof(messageAddEditViewModel));
             }
 
-            var updateMessage = new Message
+            var message = this.messageComponent.GetMessage(id);
+            if (message == null)
             {
-                Id = id,
+                return this.NotFound();
+            }
+
+            message.Content = messageAddEditViewModel.Content;
+
+            this.messageComponent.UpdateMessage(message);
+
+            var messageViewModel = new MessageViewModel
+            {
+                Id = message.Id,
                 Content = message.Content,
             };
 
-            this.messageComponent.UpdateMessage(updateMessage);
-
-            return new MessageViewModel
-            {
-                Id = updateMessage.Id,
-                Content = updateMessage.Content,
-            };
+            return this.Ok(messageViewModel);
         }
 
         /// <summary>
         /// Removes the message with the given <paramref name="id"/>.
         /// </summary>
         /// <param name="id">The id.</param>
+        /// <returns>The result.</returns>
         [HttpDelete("{id}")]
-        public void RemoveMessage(Guid id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult RemoveMessage(Guid id)
         {
-            this.messageComponent.RemoveMessage(id);
+            var message = this.messageComponent.GetMessage(id);
+            if (message == null)
+            {
+                return this.NotFound();
+            }
+
+            this.messageComponent.RemoveMessage(message);
+
+            return this.NoContent();
         }
     }
 }

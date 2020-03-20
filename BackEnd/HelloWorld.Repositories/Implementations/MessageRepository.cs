@@ -16,6 +16,7 @@ namespace HelloWorld.Repositories.Implementations
     public class MessageRepository : IMessageRepository
     {
         private readonly HelloWorldContext helloWorldContext;
+        private readonly string messagesNullMessage = $"{nameof(HelloWorldContext.Messages)} is null.";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageRepository"/> class.
@@ -30,42 +31,67 @@ namespace HelloWorld.Repositories.Implementations
         /// <inheritdoc/>
         public List<Message> GetAllMessages()
         {
+            if (this.helloWorldContext.Messages == null)
+            {
+                throw new InvalidOperationException(this.messagesNullMessage);
+            }
+
             return this.helloWorldContext.Messages.ToList();
         }
 
         /// <inheritdoc/>
         public Message AddMessage(Message message)
         {
+            if (this.helloWorldContext.Messages == null)
+            {
+                throw new InvalidOperationException(this.messagesNullMessage);
+            }
+
             if (message == null)
             {
                 throw new ArgumentNullException(nameof(message));
             }
 
-            message.Id = Guid.Empty;
-            this.helloWorldContext.Messages?.Add(message);
+            this.helloWorldContext.Messages.Add(message);
             this.helloWorldContext.SaveChanges();
+
             return message;
         }
 
         /// <inheritdoc/>
         public Message GetMessage(Guid id)
         {
-            return this.helloWorldContext.Messages.Single(message => message.Id == id);
+            if (this.helloWorldContext.Messages == null)
+            {
+                throw new InvalidOperationException(this.messagesNullMessage);
+            }
+
+            return this.helloWorldContext.Messages.SingleOrDefault(message => message.Id == id);
         }
 
         /// <inheritdoc/>
         public Message UpdateMessage(Message message)
         {
-            this.helloWorldContext.Messages?.Update(message);
+            if (this.helloWorldContext.Messages == null)
+            {
+                throw new InvalidOperationException(this.messagesNullMessage);
+            }
+
+            this.helloWorldContext.Messages.Update(message);
             this.helloWorldContext.SaveChanges();
+
             return message;
         }
 
         /// <inheritdoc/>
-        public void RemoveMessage(Guid id)
+        public void RemoveMessage(Message message)
         {
-            var message = this.helloWorldContext.Messages.Single(message => message.Id == id);
-            this.helloWorldContext.Messages?.Remove(message);
+            if (this.helloWorldContext.Messages == null)
+            {
+                throw new InvalidOperationException(this.messagesNullMessage);
+            }
+
+            this.helloWorldContext.Messages.Remove(message);
             this.helloWorldContext.SaveChanges();
         }
     }
