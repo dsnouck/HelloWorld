@@ -21,7 +21,7 @@ namespace HelloWorld.Repositories
         /// <returns>The <see cref="IServiceCollection"/> with repositories.</returns>
         public static IServiceCollection AddRepositories(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IMessageRepository, MessageRepository>();
+            serviceCollection.AddTransient<IMessageRepository, MessageRepository>();
 
             return serviceCollection;
         }

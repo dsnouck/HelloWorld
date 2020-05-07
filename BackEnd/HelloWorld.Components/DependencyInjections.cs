@@ -21,7 +21,7 @@ namespace HelloWorld.Components
         /// <returns>The <see cref="IServiceCollection"/> with components.</returns>
         public static IServiceCollection AddComponents(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IMessageComponent, MessageComponent>();
+            serviceCollection.AddTransient<IMessageComponent, MessageComponent>();
 
             return serviceCollection;
         }
