@@ -7,6 +7,7 @@ namespace HelloWorld.WebApiTests.Controllers
 {
     using System;
     using System.Collections.Generic;
+    using AutoMapper;
     using FluentAssertions;
     using HelloWorld.Components.Interfaces;
     using HelloWorld.Models;
@@ -21,6 +22,7 @@ namespace HelloWorld.WebApiTests.Controllers
     public class MessagesControllerTests : IDisposable
     {
         private readonly MessagesController systemUnderTest;
+        private readonly Mock<IMapper> mapperTestDouble;
         private readonly Mock<IMessageComponent> messageComponentTestDouble;
         private bool disposed = false;
 
@@ -29,8 +31,10 @@ namespace HelloWorld.WebApiTests.Controllers
         /// </summary>
         public MessagesControllerTests()
         {
+            this.mapperTestDouble = new Mock<IMapper>();
             this.messageComponentTestDouble = new Mock<IMessageComponent>();
             this.systemUnderTest = new MessagesController(
+                this.mapperTestDouble.Object,
                 this.messageComponentTestDouble.Object);
         }
 
@@ -43,15 +47,19 @@ namespace HelloWorld.WebApiTests.Controllers
             // Arrange.
             var messages = new List<Message>
             {
-                new Message
-                {
-                    Id = Guid.NewGuid(),
-                    Content = "Hello, world!",
-                },
+                new Message(),
             };
             this.messageComponentTestDouble
                 .Setup(component => component.GetAllMessages())
                 .Returns(messages);
+            var messageViewModel = new MessageViewModel
+            {
+                Id = Guid.NewGuid(),
+                Content = "Hello, world!",
+            };
+            this.mapperTestDouble
+                .Setup(mapper => mapper.Map<MessageViewModel>(It.IsAny<Message>()))
+                .Returns(messageViewModel);
 
             // Act.
             var result = this.systemUnderTest.GetAllMessages();
@@ -59,7 +67,7 @@ namespace HelloWorld.WebApiTests.Controllers
             // Assert.
             result.Should().BeOfType<OkObjectResult>();
             var resultValue = ((OkObjectResult)result).Value;
-            resultValue.Should().BeEquivalentTo(messages);
+            resultValue.Should().BeEquivalentTo(new List<MessageViewModel> { messageViewModel });
             this.messageComponentTestDouble
                 .Verify(component => component.GetAllMessages(), Times.Once);
         }

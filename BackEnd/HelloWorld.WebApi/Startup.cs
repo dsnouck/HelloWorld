@@ -8,6 +8,7 @@ namespace HelloWorld.WebApi
     using System;
     using System.IO;
     using System.Reflection;
+    using AutoMapper;
     using HelloWorld.Components;
     using HelloWorld.Database;
     using HelloWorld.Repositories;
@@ -69,6 +70,7 @@ namespace HelloWorld.WebApi
         {
             services.AddDbContext<HelloWorldContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("HelloWorldContext")));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddRepositories();
             services.AddComponents();
             services.AddControllers();

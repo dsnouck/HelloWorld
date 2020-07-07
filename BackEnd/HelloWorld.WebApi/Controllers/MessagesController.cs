@@ -7,6 +7,7 @@ namespace HelloWorld.WebApi.Controllers
 {
     using System;
     using System.Linq;
+    using AutoMapper;
     using HelloWorld.Components.Interfaces;
     using HelloWorld.Models;
     using Microsoft.AspNetCore.Http;
@@ -19,15 +20,19 @@ namespace HelloWorld.WebApi.Controllers
     [Route("[controller]")]
     public class MessagesController : Controller
     {
+        private readonly IMapper mapper;
         private readonly IMessageComponent messageComponent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessagesController"/> class.
         /// </summary>
+        /// <param name="mapper">An <see cref="IMapper"/>.</param>
         /// <param name="messageComponent">An <see cref="IMessageComponent"/>.</param>
         public MessagesController(
+            IMapper mapper,
             IMessageComponent messageComponent)
         {
+            this.mapper = mapper;
             this.messageComponent = messageComponent;
         }
 
@@ -41,11 +46,7 @@ namespace HelloWorld.WebApi.Controllers
         {
             var allMessageViewModels = this.messageComponent
                 .GetAllMessages()
-                .Select(message => new MessageViewModel
-                {
-                    Id = message.Id,
-                    Content = message.Content,
-                })
+                .Select(this.mapper.Map<MessageViewModel>)
                 .ToList();
 
             return this.Ok(allMessageViewModels);
@@ -65,18 +66,9 @@ namespace HelloWorld.WebApi.Controllers
                 throw new ArgumentNullException(nameof(messageAddEditViewModel));
             }
 
-            var message = new Message
-            {
-                Content = messageAddEditViewModel.Content,
-            };
-
+            var message = this.mapper.Map<Message>(messageAddEditViewModel);
             this.messageComponent.AddMessage(message);
-
-            var messageViewModel = new MessageViewModel
-            {
-                Id = message.Id,
-                Content = message.Content,
-            };
+            var messageViewModel = this.mapper.Map<MessageViewModel>(message);
 
             var uri = new Uri($"{this.Request.Path}/{messageViewModel.Id}", UriKind.Relative);
             return this.Created(uri, messageViewModel);
@@ -98,11 +90,7 @@ namespace HelloWorld.WebApi.Controllers
                 return this.NotFound();
             }
 
-            var messageViewModel = new MessageViewModel
-            {
-                Id = message.Id,
-                Content = message.Content,
-            };
+            var messageViewModel = this.mapper.Map<MessageViewModel>(message);
 
             return this.Ok(messageViewModel);
         }
@@ -129,15 +117,9 @@ namespace HelloWorld.WebApi.Controllers
                 return this.NotFound();
             }
 
-            message.Content = messageAddEditViewModel.Content;
-
+            this.mapper.Map(messageAddEditViewModel, message);
             this.messageComponent.UpdateMessage(message);
-
-            var messageViewModel = new MessageViewModel
-            {
-                Id = message.Id,
-                Content = message.Content,
-            };
+            var messageViewModel = this.mapper.Map<MessageViewModel>(message);
 
             return this.Ok(messageViewModel);
         }
