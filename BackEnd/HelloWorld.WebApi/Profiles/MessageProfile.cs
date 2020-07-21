@@ -7,6 +7,7 @@ namespace HelloWorld.WebApi.Profiles
 {
     using AutoMapper;
     using HelloWorld.Models;
+    using HelloWorld.ViewModels;
 
     /// <inheritdoc/>
     public class MessageProfile : Profile

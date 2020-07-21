@@ -10,6 +10,7 @@ namespace HelloWorld.WebApi.Controllers
     using AutoMapper;
     using HelloWorld.Components.Interfaces;
     using HelloWorld.Models;
+    using HelloWorld.ViewModels;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
@@ -59,6 +60,7 @@ namespace HelloWorld.WebApi.Controllers
         /// <returns>The added message.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult AddMessage(MessageAddEditViewModel messageAddEditViewModel)
         {
             if (messageAddEditViewModel == null)
@@ -80,8 +82,8 @@ namespace HelloWorld.WebApi.Controllers
         /// <param name="id">The id.</param>
         /// <returns>The message with the given <paramref name="id"/>.</returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetMessage(Guid id)
         {
             var message = this.messageComponent.GetMessage(id);
@@ -102,8 +104,9 @@ namespace HelloWorld.WebApi.Controllers
         /// <param name="messageAddEditViewModel">The message.</param>
         /// <returns>The updated message.</returns>
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult UpdateMessage(Guid id, MessageAddEditViewModel messageAddEditViewModel)
         {
             if (messageAddEditViewModel == null)
@@ -130,8 +133,8 @@ namespace HelloWorld.WebApi.Controllers
         /// <param name="id">The id.</param>
         /// <returns>The result.</returns>
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult RemoveMessage(Guid id)
         {
             var message = this.messageComponent.GetMessage(id);

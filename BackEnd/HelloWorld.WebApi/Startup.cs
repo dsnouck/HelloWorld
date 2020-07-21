@@ -9,9 +9,11 @@ namespace HelloWorld.WebApi
     using System.IO;
     using System.Reflection;
     using AutoMapper;
+    using FluentValidation.AspNetCore;
     using HelloWorld.Components;
     using HelloWorld.Database;
     using HelloWorld.Repositories;
+    using HelloWorld.WebApi.Validators;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -73,7 +75,8 @@ namespace HelloWorld.WebApi
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddRepositories();
             services.AddComponents();
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<MessageAddEditViewModelValidator>());
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "HelloWorld", Version = "v1" });

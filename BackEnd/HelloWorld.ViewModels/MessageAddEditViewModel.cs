@@ -3,7 +3,7 @@
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace HelloWorld.Models
+namespace HelloWorld.ViewModels
 {
     /// <summary>
     /// Represents a view model for adding or editing a message.

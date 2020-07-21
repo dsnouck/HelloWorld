@@ -11,6 +11,7 @@ namespace HelloWorld.WebApiTests.Controllers
     using FluentAssertions;
     using HelloWorld.Components.Interfaces;
     using HelloWorld.Models;
+    using HelloWorld.ViewModels;
     using HelloWorld.WebApi.Controllers;
     using Microsoft.AspNetCore.Mvc;
     using Moq;

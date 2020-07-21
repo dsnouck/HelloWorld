@@ -3,13 +3,16 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HelloWorld.Database.Migrations
 {
     [DbContext(typeof(HelloWorldContext))]
-    partial class HelloWorldContextModelSnapshot : ModelSnapshot
+    [Migration("20200721122106_AddStringLengthAttribute")]
+    partial class AddStringLengthAttribute
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc/>
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

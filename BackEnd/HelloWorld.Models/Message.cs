@@ -24,6 +24,8 @@ namespace HelloWorld.Models
         /// <summary>
         /// Gets or sets the content.
         /// </summary>
+        [Required]
+        [StringLength(256, MinimumLength = 1)]
         public string Content { get; set; } = string.Empty;
     }
 }
