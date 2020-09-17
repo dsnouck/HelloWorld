@@ -35,6 +35,11 @@ namespace HelloWorld.Components.Implementations
         /// <inheritdoc/>
         public Message AddMessage(Message message)
         {
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
             return this.messageRepository.AddMessage(message);
         }
 
@@ -47,12 +52,22 @@ namespace HelloWorld.Components.Implementations
         /// <inheritdoc/>
         public Message UpdateMessage(Message message)
         {
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
             return this.messageRepository.UpdateMessage(message);
         }
 
         /// <inheritdoc/>
         public void RemoveMessage(Message message)
         {
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
             this.messageRepository.RemoveMessage(message);
         }
     }

@@ -16,7 +16,6 @@ namespace HelloWorld.Repositories.Implementations
     public class MessageRepository : IMessageRepository
     {
         private readonly HelloWorldContext helloWorldContext;
-        private readonly string messagesNullMessage = $"{nameof(HelloWorldContext.Messages)} is null.";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageRepository"/> class.
@@ -31,22 +30,12 @@ namespace HelloWorld.Repositories.Implementations
         /// <inheritdoc/>
         public List<Message> GetAllMessages()
         {
-            if (this.helloWorldContext.Messages == null)
-            {
-                throw new InvalidOperationException(this.messagesNullMessage);
-            }
-
             return this.helloWorldContext.Messages.ToList();
         }
 
         /// <inheritdoc/>
         public Message AddMessage(Message message)
         {
-            if (this.helloWorldContext.Messages == null)
-            {
-                throw new InvalidOperationException(this.messagesNullMessage);
-            }
-
             if (message == null)
             {
                 throw new ArgumentNullException(nameof(message));
@@ -61,20 +50,15 @@ namespace HelloWorld.Repositories.Implementations
         /// <inheritdoc/>
         public Message GetMessage(Guid id)
         {
-            if (this.helloWorldContext.Messages == null)
-            {
-                throw new InvalidOperationException(this.messagesNullMessage);
-            }
-
             return this.helloWorldContext.Messages.SingleOrDefault(message => message.Id == id);
         }
 
         /// <inheritdoc/>
         public Message UpdateMessage(Message message)
         {
-            if (this.helloWorldContext.Messages == null)
+            if (message == null)
             {
-                throw new InvalidOperationException(this.messagesNullMessage);
+                throw new ArgumentNullException(nameof(message));
             }
 
             this.helloWorldContext.Messages.Update(message);
@@ -86,9 +70,9 @@ namespace HelloWorld.Repositories.Implementations
         /// <inheritdoc/>
         public void RemoveMessage(Message message)
         {
-            if (this.helloWorldContext.Messages == null)
+            if (message == null)
             {
-                throw new InvalidOperationException(this.messagesNullMessage);
+                throw new ArgumentNullException(nameof(message));
             }
 
             this.helloWorldContext.Messages.Remove(message);

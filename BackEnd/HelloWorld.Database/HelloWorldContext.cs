@@ -25,9 +25,9 @@ namespace HelloWorld.Database
         }
 
         /// <summary>
-        /// Gets or sets the messages.
+        /// Gets the messages.
         /// </summary>
-        public DbSet<Message>? Messages { get; set; }
+        public DbSet<Message> Messages => this.Set<Message>();
 
         /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,6 +37,7 @@ namespace HelloWorld.Database
                 throw new ArgumentNullException(nameof(modelBuilder));
             }
 
+            // Use singular table names.
             foreach (var entity in modelBuilder.Model.GetEntityTypes())
             {
                 entity.SetTableName(entity.DisplayName());

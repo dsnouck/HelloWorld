@@ -1,4 +1,4 @@
-﻿// <copyright file="MessagesController.cs" company="dsnouck">
+﻿// <copyright file="MessageController.cs" company="dsnouck">
 // Copyright (c) dsnouck. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -18,18 +18,23 @@ namespace HelloWorld.WebApi.Controllers
     /// A controller for messages.
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
-    public class MessagesController : Controller
+    [Route(Route)]
+    public class MessageController : Controller
     {
+        /// <summary>
+        /// The route of this controller.
+        /// </summary>
+        public const string Route = "Messages";
+
         private readonly IMapper mapper;
         private readonly IMessageComponent messageComponent;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessagesController"/> class.
+        /// Initializes a new instance of the <see cref="MessageController"/> class.
         /// </summary>
         /// <param name="mapper">An <see cref="IMapper"/>.</param>
         /// <param name="messageComponent">An <see cref="IMessageComponent"/>.</param>
-        public MessagesController(
+        public MessageController(
             IMapper mapper,
             IMessageComponent messageComponent)
         {
@@ -72,7 +77,7 @@ namespace HelloWorld.WebApi.Controllers
             this.messageComponent.AddMessage(message);
             var messageViewModel = this.mapper.Map<MessageViewModel>(message);
 
-            var uri = new Uri($"{this.Request.Path}/{messageViewModel.Id}", UriKind.Relative);
+            var uri = new Uri($"/{Route}/{messageViewModel.Id}", UriKind.Relative);
             return this.Created(uri, messageViewModel);
         }
 

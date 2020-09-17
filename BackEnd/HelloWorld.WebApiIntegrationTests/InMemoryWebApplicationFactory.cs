@@ -8,7 +8,6 @@ namespace HelloWorld.WebApiIntegrationTests
     using System;
     using System.Linq;
     using HelloWorld.Database;
-    using HelloWorld.Models;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.EntityFrameworkCore;
@@ -38,16 +37,16 @@ namespace HelloWorld.WebApiIntegrationTests
                     serviceCollection.Remove(serviceDescriptor);
                 }
 
-                serviceCollection.AddDbContext<HelloWorldContext>(options =>
+                serviceCollection.AddDbContext<HelloWorldContext>(
+                    options =>
                     options.UseInMemoryDatabase("HelloWorld"));
 
                 var serviceProvider = serviceCollection.BuildServiceProvider();
                 using var scope = serviceProvider.CreateScope();
                 var scopedServiceProvider = scope.ServiceProvider;
                 var helloWorldContext = scopedServiceProvider.GetRequiredService<HelloWorldContext>();
+                helloWorldContext.Database.EnsureDeleted();
                 helloWorldContext.Database.EnsureCreated();
-                helloWorldContext.Messages?.Add(new Message { Content = "Hello, world!" });
-                helloWorldContext.SaveChanges();
             });
         }
     }
