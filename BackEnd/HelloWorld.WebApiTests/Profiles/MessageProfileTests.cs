@@ -37,7 +37,9 @@ namespace HelloWorld.WebApiTests.Profiles
             var message = MessageBuilder.ABuilder().Build();
             var messageViewModel = MessageViewModelBuilder
                 .ABuilder()
-                .WithId(message.Id)
+                .WithId(message.ExternalId)
+                .WithAddedOn(message.AddedOn)
+                .WithEditedOn(message.EditedOn)
                 .WithContent(message.Content)
                 .Build();
 
@@ -52,17 +54,20 @@ namespace HelloWorld.WebApiTests.Profiles
         /// Tests <see cref="MessageProfile"/>.
         /// </summary>
         [Fact]
-        public void GivenAMessageWhenMapIsCalledThenTheMessageIsCorrectlyUpdated()
+        public void GivenAMessageWhenMapIsCalledThenTheMessageIsCorrectlyEdited()
         {
             // Arrange.
             var message = MessageBuilder.ABuilder().Build();
             var messageAddEditViewModel = MessageAddEditViewModelBuilder
                 .ABuilder()
-                .WithContent("Updated")
+                .WithContent("Edited")
                 .Build();
-            var updatedMessage = MessageBuilder
+            var editedMessage = MessageBuilder
                 .ABuilder()
                 .WithId(message.Id)
+                .WithExternalId(message.ExternalId)
+                .WithAddedOn(message.AddedOn)
+                .WithEditedOn(message.EditedOn)
                 .WithContent(messageAddEditViewModel.Content)
                 .Build();
 
@@ -70,7 +75,7 @@ namespace HelloWorld.WebApiTests.Profiles
             this.systemUnderTest.Map(messageAddEditViewModel, message);
 
             // Assert.
-            message.Should().BeEquivalentTo(updatedMessage);
+            message.Should().BeEquivalentTo(editedMessage);
         }
     }
 }

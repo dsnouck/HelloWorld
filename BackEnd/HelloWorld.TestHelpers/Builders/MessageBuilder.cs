@@ -19,7 +19,10 @@ namespace HelloWorld.TestHelpers.Builders
         {
             this.message = new Message
             {
-                Id = Guid.NewGuid(),
+                Id = 1L,
+                ExternalId = Guid.NewGuid(),
+                AddedOn = DateTime.UtcNow,
+                EditedOn = DateTime.UtcNow,
                 Content = "Hello, world!",
             };
         }
@@ -43,13 +46,46 @@ namespace HelloWorld.TestHelpers.Builders
         }
 
         /// <summary>
-        /// Sets <see cref="Message.Id"/>.
+        /// Sets <see cref="PersistentModel.Id"/>.
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns>The updated <see cref="MessageBuilder"/>.</returns>
-        public MessageBuilder WithId(Guid id)
+        public MessageBuilder WithId(long id)
         {
             this.message.Id = id;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets <see cref="PersistentModelWithExternalId.ExternalId"/>.
+        /// </summary>
+        /// <param name="externalId">The external id.</param>
+        /// <returns>The updated <see cref="MessageBuilder"/>.</returns>
+        public MessageBuilder WithExternalId(Guid externalId)
+        {
+            this.message.ExternalId = externalId;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets <see cref="PersistentModel.AddedOn"/>.
+        /// </summary>
+        /// <param name="addedOn">Added on.</param>
+        /// <returns>The updated <see cref="MessageBuilder"/>.</returns>
+        public MessageBuilder WithAddedOn(DateTime addedOn)
+        {
+            this.message.AddedOn = addedOn;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets <see cref="PersistentModel.EditedOn"/>.
+        /// </summary>
+        /// <param name="editedOn">Edited on.</param>
+        /// <returns>The updated <see cref="MessageBuilder"/>.</returns>
+        public MessageBuilder WithEditedOn(DateTime? editedOn)
+        {
+            this.message.EditedOn = editedOn;
             return this;
         }
 

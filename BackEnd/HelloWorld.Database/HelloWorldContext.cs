@@ -30,6 +30,42 @@ namespace HelloWorld.Database
         public DbSet<Message> Messages => this.Set<Message>();
 
         /// <inheritdoc/>
+        public override int SaveChanges()
+        {
+            if (this.ChangeTracker == null)
+            {
+                throw new InvalidOperationException($"{nameof(this.ChangeTracker)} is null.");
+            }
+
+            var now = DateTime.UtcNow;
+
+            foreach (var entry in this.ChangeTracker.Entries<PersistentModel>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.AddedOn = now;
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.EditedOn = now;
+                        break;
+                }
+            }
+
+            foreach (var entry in this.ChangeTracker.Entries<PersistentModelWithExternalId>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.ExternalId = Guid.NewGuid();
+                        break;
+                }
+            }
+
+            return base.SaveChanges();
+        }
+
+        /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             if (modelBuilder == null)
@@ -42,6 +78,8 @@ namespace HelloWorld.Database
             {
                 entity.SetTableName(entity.DisplayName());
             }
+
+            modelBuilder.Entity<Message>().HasIndex(message => message.ExternalId);
 
             base.OnModelCreating(modelBuilder);
         }

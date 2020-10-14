@@ -17,7 +17,9 @@ namespace HelloWorld.WebApi.Profiles
         /// </summary>
         public MessageProfile()
         {
-            this.CreateMap<Message, MessageViewModel>();
+            // Externally, the external id is known as just the id.
+            this.CreateMap<Message, MessageViewModel>()
+                .ForMember(messageViewModel => messageViewModel.Id, options => options.MapFrom(message => message.ExternalId));
             this.CreateMap<MessageAddEditViewModel, Message>();
         }
     }

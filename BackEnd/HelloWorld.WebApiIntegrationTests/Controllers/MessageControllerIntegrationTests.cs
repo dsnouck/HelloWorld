@@ -20,7 +20,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
     using Xunit;
 
     /// <summary>
-    /// Provides integration tests for <see cref="MessageController"/>.
+    /// Provides integration tests for <see cref="MessagesController"/>.
     /// </summary>
     public class MessageControllerIntegrationTests : IDisposable
     {
@@ -36,7 +36,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
         {
             this.factory = new InMemoryWebApplicationFactory<Startup>();
             this.client = this.factory.CreateClient();
-            this.uri = new Uri("http://localhost/messages");
+            this.uri = new Uri("http://localhost/api/v1/Messages");
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task GivenNoMessagesWhenGetAllMessagesIsCalledThenNoMessagesAreReturned()
+        public async Task GivenNoMessagesWhenGetMessagesIsCalledThenNoMessagesAreReturned()
         {
             // Arrange
 
@@ -63,7 +63,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task GivenAMessageWhenGetAllMessagesIsCalledThenTheMessageIsReturned()
+        public async Task GivenAMessageWhenGetMessagesIsCalledThenTheMessageIsReturned()
         {
             // Arrange
             var messageToAdd = MessageAddEditViewModelBuilder.ABuilder().Build();
@@ -98,7 +98,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            var allMessages = await this.GetAllMessages().ConfigureAwait(false);
+            var allMessages = await this.GetMessages().ConfigureAwait(false);
             allMessages.Should().BeEmpty();
         }
 
@@ -120,7 +120,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.Created);
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var message = Deserialize<MessageViewModel>(content);
-            var allMessages = await this.GetAllMessages().ConfigureAwait(false);
+            var allMessages = await this.GetMessages().ConfigureAwait(false);
             allMessages.Should().BeEquivalentTo(new List<MessageViewModel> { message });
         }
 
@@ -160,7 +160,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var message = Deserialize<MessageViewModel>(content);
-            var allMessages = await this.GetAllMessages().ConfigureAwait(false);
+            var allMessages = await this.GetMessages().ConfigureAwait(false);
             allMessages.Should().BeEquivalentTo(new List<MessageViewModel> { message });
         }
 
@@ -169,7 +169,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task GivenANonExistentIdWhenUpdateMessageIsCalledThenTheMessageIsNotFound()
+        public async Task GivenANonExistentIdWhenEditMessageIsCalledThenTheMessageIsNotFound()
         {
             // Arrange
             var uri = new Uri($"{this.uri}/{Guid.NewGuid()}");
@@ -181,7 +181,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            var allMessages = await this.GetAllMessages().ConfigureAwait(false);
+            var allMessages = await this.GetMessages().ConfigureAwait(false);
             allMessages.Should().BeEmpty();
         }
 
@@ -190,24 +190,24 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task GivenAnInvalidMessageWhenUpdateMessageIsCalledThenTheMessageIsNotUpdated()
+        public async Task GivenAnInvalidMessageWhenEditMessageIsCalledThenTheMessageIsNotEdited()
         {
             // Arrange
             var messageToAdd = MessageAddEditViewModelBuilder.ABuilder().Build();
             var addedMessage = await this.AddMessage(messageToAdd).ConfigureAwait(false);
             var uri = new Uri($"{this.uri}/{addedMessage.Id}");
-            var messageToUpdate = MessageAddEditViewModelBuilder
+            var messageToEdit = MessageAddEditViewModelBuilder
                 .ABuilder()
                 .WithContent(string.Empty)
                 .Build();
-            using var stringContent = GetStringContent(messageToUpdate);
+            using var stringContent = GetStringContent(messageToEdit);
 
             // Act
             var response = await this.client.PutAsync(uri, stringContent).ConfigureAwait(false);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            var allMessages = await this.GetAllMessages().ConfigureAwait(false);
+            var allMessages = await this.GetMessages().ConfigureAwait(false);
             allMessages.Should().BeEquivalentTo(new List<MessageViewModel> { addedMessage });
         }
 
@@ -216,17 +216,17 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task GivenAMessageWhenUpdateMessageIsCalledThenTheMessageIsUpdated()
+        public async Task GivenAMessageWhenEditMessageIsCalledThenTheMessageIsEdited()
         {
             // Arrange
             var messageToAdd = MessageAddEditViewModelBuilder.ABuilder().Build();
             var addedMessage = await this.AddMessage(messageToAdd).ConfigureAwait(false);
             var uri = new Uri($"{this.uri}/{addedMessage.Id}");
-            var messageToUpdate = MessageAddEditViewModelBuilder
+            var messageToEdit = MessageAddEditViewModelBuilder
                 .ABuilder()
-                .WithContent("Updated")
+                .WithContent("Edited")
                 .Build();
-            using var stringContent = GetStringContent(messageToUpdate);
+            using var stringContent = GetStringContent(messageToEdit);
 
             // Act
             var response = await this.client.PutAsync(uri, stringContent).ConfigureAwait(false);
@@ -235,7 +235,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var message = Deserialize<MessageViewModel>(content);
-            var allMessages = await this.GetAllMessages().ConfigureAwait(false);
+            var allMessages = await this.GetMessages().ConfigureAwait(false);
             allMessages.Should().BeEquivalentTo(new List<MessageViewModel> { message });
         }
 
@@ -273,7 +273,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-            var allMessages = await this.GetAllMessages().ConfigureAwait(false);
+            var allMessages = await this.GetMessages().ConfigureAwait(false);
             allMessages.Should().BeEmpty();
         }
 
@@ -319,7 +319,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
             return new StringContent(JsonSerializer.Serialize(value), Encoding.UTF8, "application/json");
         }
 
-        private async Task<List<MessageViewModel>> GetAllMessages()
+        private async Task<List<MessageViewModel>> GetMessages()
         {
             var response = await this.client.GetAsync(this.uri).ConfigureAwait(false);
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);

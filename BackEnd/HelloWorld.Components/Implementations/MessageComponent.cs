@@ -27,9 +27,9 @@ namespace HelloWorld.Components.Implementations
         }
 
         /// <inheritdoc/>
-        public List<Message> GetAllMessages()
+        public List<Message> GetMessages()
         {
-            return this.messageRepository.GetAllMessages();
+            return this.messageRepository.GetMessages();
         }
 
         /// <inheritdoc/>
@@ -44,20 +44,26 @@ namespace HelloWorld.Components.Implementations
         }
 
         /// <inheritdoc/>
-        public Message GetMessage(Guid id)
+        public Message GetMessage(long id)
         {
             return this.messageRepository.GetMessage(id);
         }
 
         /// <inheritdoc/>
-        public Message UpdateMessage(Message message)
+        public Message GetMessage(Guid externalId)
+        {
+            return this.messageRepository.GetMessage(externalId);
+        }
+
+        /// <inheritdoc/>
+        public Message EditMessage(Message message)
         {
             if (message == null)
             {
                 throw new ArgumentNullException(nameof(message));
             }
 
-            return this.messageRepository.UpdateMessage(message);
+            return this.messageRepository.EditMessage(message);
         }
 
         /// <inheritdoc/>

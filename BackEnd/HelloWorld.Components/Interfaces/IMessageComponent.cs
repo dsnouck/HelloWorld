@@ -15,10 +15,10 @@ namespace HelloWorld.Components.Interfaces
     public interface IMessageComponent
     {
         /// <summary>
-        /// Gets all <see cref="Message"/>s.
+        /// Gets <see cref="Message"/>s.
         /// </summary>
-        /// <returns>All <see cref="Message"/>s.</returns>
-        List<Message> GetAllMessages();
+        /// <returns><see cref="Message"/>s.</returns>
+        List<Message> GetMessages();
 
         /// <summary>
         /// Adds a <see cref="Message"/>.
@@ -32,14 +32,21 @@ namespace HelloWorld.Components.Interfaces
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns>The <see cref="Message"/> with the given <paramref name="id"/>.</returns>
-        Message GetMessage(Guid id);
+        Message GetMessage(long id);
 
         /// <summary>
-        /// Updates the given <see cref="Message"/>.
+        /// Gets the <see cref="Message"/> with the given <paramref name="externalId"/>.
+        /// </summary>
+        /// <param name="externalId">The external id.</param>
+        /// <returns>The <see cref="Message"/> with the given <paramref name="externalId"/>.</returns>
+        Message GetMessage(Guid externalId);
+
+        /// <summary>
+        /// Edits the given <see cref="Message"/>.
         /// </summary>
         /// <param name="message">The message.</param>
-        /// <returns>The updated <see cref="Message"/>.</returns>
-        Message UpdateMessage(Message message);
+        /// <returns>The edited <see cref="Message"/>.</returns>
+        Message EditMessage(Message message);
 
         /// <summary>
         /// Removes the given <see cref="Message"/>.

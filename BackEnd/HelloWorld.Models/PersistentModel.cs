@@ -1,21 +1,22 @@
-﻿// <copyright file="MessageViewModel.cs" company="dsnouck">
+﻿// <copyright file="PersistentModel.cs" company="dsnouck">
 // Copyright (c) dsnouck. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace HelloWorld.ViewModels
+namespace HelloWorld.Models
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// Represents a view model for a message.
+    /// Represents a model that is persisted in the database.
     /// </summary>
-    public class MessageViewModel
+    public abstract class PersistentModel
     {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or sets when this was added.
@@ -26,10 +27,5 @@ namespace HelloWorld.ViewModels
         /// Gets or sets when this was edited.
         /// </summary>
         public DateTime? EditedOn { get; set; }
-
-        /// <summary>
-        /// Gets or sets the content.
-        /// </summary>
-        public string Content { get; set; } = string.Empty;
     }
 }

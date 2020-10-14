@@ -19,11 +19,11 @@ namespace HelloWorld.WebApiTests.Controllers
     using Xunit;
 
     /// <summary>
-    /// Provides tests for <see cref="MessageController"/>.
+    /// Provides tests for <see cref="MessagesController"/>.
     /// </summary>
     public class MessageControllerTests : IDisposable
     {
-        private readonly MessageController systemUnderTest;
+        private readonly MessagesController systemUnderTest;
         private readonly Mock<IMapper> mapperTestDouble;
         private readonly Mock<IMessageComponent> messageComponentTestDouble;
         private bool disposed;
@@ -35,40 +35,40 @@ namespace HelloWorld.WebApiTests.Controllers
         {
             this.mapperTestDouble = new Mock<IMapper>();
             this.messageComponentTestDouble = new Mock<IMessageComponent>();
-            this.systemUnderTest = new MessageController(
+            this.systemUnderTest = new MessagesController(
                 this.mapperTestDouble.Object,
                 this.messageComponentTestDouble.Object);
         }
 
         /// <summary>
-        /// Tests <see cref="MessageController.GetAllMessages()"/>.
+        /// Tests <see cref="MessagesController.GetMessages()"/>.
         /// </summary>
         [Fact]
-        public void GivenNoMessagesWhenGetAllMessagesIsCalledThenNoMessagesAreReturned()
+        public void GivenNoMessagesWhenGetMessagesIsCalledThenNoMessagesAreReturned()
         {
             // Arrange.
             var messages = new List<Message>();
             var messageViewModels = new List<MessageViewModel>();
             this.messageComponentTestDouble
-                .Setup(component => component.GetAllMessages())
+                .Setup(component => component.GetMessages())
                 .Returns(messages);
 
             // Act.
-            var result = this.systemUnderTest.GetAllMessages();
+            var result = this.systemUnderTest.GetMessages();
 
             // Assert.
             result.Should().BeOfType<OkObjectResult>();
             var okObjectResult = (OkObjectResult)result;
             okObjectResult.Value.Should().BeEquivalentTo(messageViewModels);
             this.messageComponentTestDouble
-                .Verify(component => component.GetAllMessages(), Times.Once);
+                .Verify(component => component.GetMessages(), Times.Once);
         }
 
         /// <summary>
-        /// Tests <see cref="MessageController.GetAllMessages()"/>.
+        /// Tests <see cref="MessagesController.GetMessages()"/>.
         /// </summary>
         [Fact]
-        public void GivenAMessageWhenGetAllMessagesIsCalledThenTheMessageIsReturned()
+        public void GivenAMessageWhenGetMessagesIsCalledThenTheMessageIsReturned()
         {
             // Arrange.
             var message = MessageBuilder.ABuilder().Build();
@@ -82,27 +82,27 @@ namespace HelloWorld.WebApiTests.Controllers
                 messageViewModel,
             };
             this.messageComponentTestDouble
-                .Setup(component => component.GetAllMessages())
+                .Setup(component => component.GetMessages())
                 .Returns(messages);
             this.mapperTestDouble
                 .Setup(mapper => mapper.Map<MessageViewModel>(It.IsAny<Message>()))
                 .Returns(messageViewModel);
 
             // Act.
-            var result = this.systemUnderTest.GetAllMessages();
+            var result = this.systemUnderTest.GetMessages();
 
             // Assert.
             result.Should().BeOfType<OkObjectResult>();
             var okObjectResult = (OkObjectResult)result;
             okObjectResult.Value.Should().BeEquivalentTo(messageViewModels);
             this.messageComponentTestDouble
-                .Verify(component => component.GetAllMessages(), Times.Once);
+                .Verify(component => component.GetMessages(), Times.Once);
             this.mapperTestDouble
                 .Verify(mapper => mapper.Map<MessageViewModel>(message), Times.Once);
         }
 
         /// <summary>
-        /// Tests <see cref="MessageController.AddMessage(MessageAddEditViewModel)"/>.
+        /// Tests <see cref="MessagesController.AddMessage(MessageAddEditViewModel)"/>.
         /// </summary>
         [Fact]
         public void GivenTheMessageIsNullWhenAddMessageIsCalledThenAnArgumentNullExceptionIsThrown()
@@ -118,7 +118,7 @@ namespace HelloWorld.WebApiTests.Controllers
         }
 
         /// <summary>
-        /// Tests <see cref="MessageController.AddMessage(MessageAddEditViewModel)"/>.
+        /// Tests <see cref="MessagesController.AddMessage(MessageAddEditViewModel)"/>.
         /// </summary>
         [Fact]
         public void GivenAMessageWhenAddMessageIsCalledThenTheMessageIsAdded()
@@ -141,7 +141,7 @@ namespace HelloWorld.WebApiTests.Controllers
             result.Should().BeOfType<CreatedResult>();
             var createdresult = (CreatedResult)result;
             createdresult.Value.Should().BeEquivalentTo(messageViewModel);
-            createdresult.Location.Should().Be($"/{MessageController.Route}/{messageViewModel.Id}");
+            createdresult.Location.Should().Be($"/api/1.0/Messages/{messageViewModel.Id}");
             this.mapperTestDouble
                 .Verify(mapper => mapper.Map<Message>(messageAddEditViewModel), Times.Once);
             this.messageComponentTestDouble
@@ -151,7 +151,7 @@ namespace HelloWorld.WebApiTests.Controllers
         }
 
         /// <summary>
-        /// Tests <see cref="MessageController.GetMessage(Guid)"/>.
+        /// Tests <see cref="MessagesController.GetMessage(Guid)"/>.
         /// </summary>
         [Fact]
         public void GivenANonExistentIdWhenGetMessageIsCalledThenTheMessageIsNotFound()
@@ -169,7 +169,7 @@ namespace HelloWorld.WebApiTests.Controllers
         }
 
         /// <summary>
-        /// Tests <see cref="MessageController.GetMessage(Guid)"/>.
+        /// Tests <see cref="MessagesController.GetMessage(Guid)"/>.
         /// </summary>
         [Fact]
         public void GivenAMessageWhenGetMessageIsCalledThenTheMessageIsReturned()
@@ -185,47 +185,47 @@ namespace HelloWorld.WebApiTests.Controllers
                 .Returns(messageViewModel);
 
             // Act.
-            var result = this.systemUnderTest.GetMessage(message.Id);
+            var result = this.systemUnderTest.GetMessage(message.ExternalId);
 
             // Assert.
             result.Should().BeOfType<OkObjectResult>();
             var okObjectResult = (OkObjectResult)result;
             okObjectResult.Value.Should().BeEquivalentTo(messageViewModel);
             this.messageComponentTestDouble
-                .Verify(component => component.GetMessage(message.Id), Times.Once);
+                .Verify(component => component.GetMessage(message.ExternalId), Times.Once);
             this.mapperTestDouble
                 .Verify(mapper => mapper.Map<MessageViewModel>(message), Times.Once);
         }
 
         /// <summary>
-        /// Tests <see cref="MessageController.UpdateMessage(Guid, MessageAddEditViewModel)"/>.
+        /// Tests <see cref="MessagesController.EditMessage(Guid, MessageAddEditViewModel)"/>.
         /// </summary>
         [Fact]
-        public void GivenTheMessageIsNullWhenUpdateMessageIsCalledThenAnArgumentNullExceptionIsThrown()
+        public void GivenTheMessageIsNullWhenEditMessageIsCalledThenAnArgumentNullExceptionIsThrown()
         {
             // Arrange.
             var id = Guid.NewGuid();
             var messageAddEditViewModel = NullBuilder.Build<MessageAddEditViewModel>();
 
             // Act.
-            Action action = () => this.systemUnderTest.UpdateMessage(id, messageAddEditViewModel);
+            Action action = () => this.systemUnderTest.EditMessage(id, messageAddEditViewModel);
 
             // Assert.
             action.Should().Throw<ArgumentNullException>();
         }
 
         /// <summary>
-        /// Tests <see cref="MessageController.UpdateMessage(Guid, MessageAddEditViewModel)"/>.
+        /// Tests <see cref="MessagesController.EditMessage(Guid, MessageAddEditViewModel)"/>.
         /// </summary>
         [Fact]
-        public void GivenANonExistentIdWhenUpdateMessageIsCalledThenTheMessageIsNotFound()
+        public void GivenANonExistentIdWhenEditMessageIsCalledThenTheMessageIsNotFound()
         {
             // Arrange.
             var id = Guid.NewGuid();
             var messageAddEditViewModel = MessageAddEditViewModelBuilder.ABuilder().Build();
 
             // Act.
-            var result = this.systemUnderTest.UpdateMessage(id, messageAddEditViewModel);
+            var result = this.systemUnderTest.EditMessage(id, messageAddEditViewModel);
 
             // Assert.
             result.Should().BeOfType<NotFoundResult>();
@@ -234,10 +234,10 @@ namespace HelloWorld.WebApiTests.Controllers
         }
 
         /// <summary>
-        /// Tests <see cref="MessageController.UpdateMessage(Guid, MessageAddEditViewModel)"/>.
+        /// Tests <see cref="MessagesController.EditMessage(Guid, MessageAddEditViewModel)"/>.
         /// </summary>
         [Fact]
-        public void GivenAMessageWhenUpdateMessageIsCalledThenTheMessageIsUpdated()
+        public void GivenAMessageWhenEditMessageIsCalledThenTheMessageIsEdited()
         {
             // Arrange.
             var message = MessageBuilder.ABuilder().Build();
@@ -251,24 +251,24 @@ namespace HelloWorld.WebApiTests.Controllers
                 .Returns(messageViewModel);
 
             // Act.
-            var result = this.systemUnderTest.UpdateMessage(message.Id, messageAddEditViewModel);
+            var result = this.systemUnderTest.EditMessage(message.ExternalId, messageAddEditViewModel);
 
             // Assert.
             result.Should().BeOfType<OkObjectResult>();
             var okObjectResult = (OkObjectResult)result;
             okObjectResult.Value.Should().BeEquivalentTo(messageViewModel);
             this.messageComponentTestDouble
-                .Verify(component => component.GetMessage(message.Id), Times.Once);
+                .Verify(component => component.GetMessage(message.ExternalId), Times.Once);
             this.mapperTestDouble
                 .Verify(mapper => mapper.Map(messageAddEditViewModel, message), Times.Once);
             this.messageComponentTestDouble
-                .Verify(component => component.UpdateMessage(message), Times.Once);
+                .Verify(component => component.EditMessage(message), Times.Once);
             this.mapperTestDouble
                 .Verify(mapper => mapper.Map<MessageViewModel>(message), Times.Once);
         }
 
         /// <summary>
-        /// Tests <see cref="MessageController.RemoveMessage(Guid)"/>.
+        /// Tests <see cref="MessagesController.RemoveMessage(Guid)"/>.
         /// </summary>
         [Fact]
         public void GivenANonExistentIdWhenRemoveMessageIsCalledThenTheMessageIsNotFound()
@@ -286,7 +286,7 @@ namespace HelloWorld.WebApiTests.Controllers
         }
 
         /// <summary>
-        /// Tests <see cref="MessageController.RemoveMessage(Guid)"/>.
+        /// Tests <see cref="MessagesController.RemoveMessage(Guid)"/>.
         /// </summary>
         [Fact]
         public void GivenAMessageWhenRemoveMessageIsCalledThenTheMessageIsRemoved()
@@ -298,12 +298,12 @@ namespace HelloWorld.WebApiTests.Controllers
                 .Returns(message);
 
             // Act.
-            var result = this.systemUnderTest.RemoveMessage(message.Id);
+            var result = this.systemUnderTest.RemoveMessage(message.ExternalId);
 
             // Assert.
             result.Should().BeOfType<NoContentResult>();
             this.messageComponentTestDouble
-                .Verify(component => component.GetMessage(message.Id), Times.Once);
+                .Verify(component => component.GetMessage(message.ExternalId), Times.Once);
             this.messageComponentTestDouble
                 .Verify(component => component.RemoveMessage(message), Times.Once);
         }

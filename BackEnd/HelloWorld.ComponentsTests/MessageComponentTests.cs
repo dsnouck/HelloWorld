@@ -34,10 +34,10 @@ namespace HelloWorld.ComponentsTests
         }
 
         /// <summary>
-        /// Tests <see cref="MessageComponent.GetAllMessages()"/>.
+        /// Tests <see cref="MessageComponent.GetMessages()"/>.
         /// </summary>
         [Fact]
-        public void GivenAMessageWhenGetAllMessagesIsCalledThenTheMessageIsReturned()
+        public void GivenAMessageWhenGetMessagesIsCalledThenTheMessageIsReturned()
         {
             // Arrange.
             var messages = new List<Message>
@@ -45,16 +45,16 @@ namespace HelloWorld.ComponentsTests
                 MessageBuilder.ABuilder().Build(),
             };
             this.messageRepositoryTestDouble
-                .Setup(repository => repository.GetAllMessages())
+                .Setup(repository => repository.GetMessages())
                 .Returns(messages);
 
             // Act.
-            var result = this.systemUnderTest.GetAllMessages();
+            var result = this.systemUnderTest.GetMessages();
 
             // Assert.
             result.Should().BeEquivalentTo(messages);
             this.messageRepositoryTestDouble
-                .Verify(repository => repository.GetAllMessages(), Times.Once);
+                .Verify(repository => repository.GetMessages(), Times.Once);
         }
 
         /// <summary>
@@ -95,15 +95,15 @@ namespace HelloWorld.ComponentsTests
         }
 
         /// <summary>
-        /// Tests <see cref="MessageComponent.GetMessage(Guid)"/>.
+        /// Tests <see cref="MessageComponent.GetMessage(long)"/>.
         /// </summary>
         [Fact]
-        public void GivenAMessageWhenGetMessageIsCalledThenTheMessageIsReturned()
+        public void GivenAMessageWhenGetMessageOnLongIsCalledThenTheMessageIsReturned()
         {
             // Arrange.
             var message = MessageBuilder.ABuilder().Build();
             this.messageRepositoryTestDouble
-                .Setup(repository => repository.GetMessage(It.IsAny<Guid>()))
+                .Setup(repository => repository.GetMessage(It.IsAny<long>()))
                 .Returns(message);
 
             // Act.
@@ -116,40 +116,61 @@ namespace HelloWorld.ComponentsTests
         }
 
         /// <summary>
-        /// Tests <see cref="MessageComponent.UpdateMessage(Message)"/>.
+        /// Tests <see cref="MessageComponent.GetMessage(Guid)"/>.
         /// </summary>
         [Fact]
-        public void GivenTheMessageIsNullWhenUpdateMessageIsCalledThenAnArgumentNullExceptionIsThrown()
+        public void GivenAMessageWhenGetMessageOnGuidIsCalledThenTheMessageIsReturned()
+        {
+            // Arrange.
+            var message = MessageBuilder.ABuilder().Build();
+            this.messageRepositoryTestDouble
+                .Setup(repository => repository.GetMessage(It.IsAny<Guid>()))
+                .Returns(message);
+
+            // Act.
+            var result = this.systemUnderTest.GetMessage(message.ExternalId);
+
+            // Assert.
+            result.Should().Be(message);
+            this.messageRepositoryTestDouble
+                .Verify(repository => repository.GetMessage(message.ExternalId), Times.Once);
+        }
+
+        /// <summary>
+        /// Tests <see cref="MessageComponent.EditMessage(Message)"/>.
+        /// </summary>
+        [Fact]
+        public void GivenTheMessageIsNullWhenEditMessageIsCalledThenAnArgumentNullExceptionIsThrown()
         {
             // Arrange.
             var message = NullBuilder.Build<Message>();
 
             // Act.
-            Action action = () => this.systemUnderTest.UpdateMessage(message);
+            Action action = () => this.systemUnderTest.EditMessage(message);
 
             // Assert.
             action.Should().Throw<ArgumentNullException>();
         }
 
         /// <summary>
-        /// Tests <see cref="MessageComponent.UpdateMessage(Message)"/>.
+        /// Tests <see cref="MessageComponent.EditMessage(Message)"/>.
         /// </summary>
         [Fact]
-        public void GivenAMessageWhenUpdateMessageIsCalledThenTheMessageIsUpdated()
+        public void GivenAMessageWhenEditMessageIsCalledThenTheMessageIsEdited()
         {
             // Arrange.
             var message = MessageBuilder.ABuilder().Build();
             this.messageRepositoryTestDouble
-                .Setup(repository => repository.UpdateMessage(It.IsAny<Message>()))
+                .Setup(repository => repository.EditMessage(It.IsAny<Message>()))
                 .Returns(message);
 
             // Act.
-            var result = this.systemUnderTest.UpdateMessage(message);
+            var result = this.systemUnderTest.EditMessage(message);
 
             // Assert.
             result.Should().Be(message);
             this.messageRepositoryTestDouble
-                .Verify(repository => repository.UpdateMessage(message), Times.Once);
+                .Verify(repository => repository.EditMessage(message), Times.Once);
         }
 
         /// <summary>

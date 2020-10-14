@@ -54,6 +54,28 @@ namespace HelloWorld.TestHelpers.Builders
         }
 
         /// <summary>
+        /// Sets <see cref="MessageViewModel.AddedOn"/>.
+        /// </summary>
+        /// <param name="addedOn">Added on.</param>
+        /// <returns>The updated <see cref="MessageViewModelBuilder"/>.</returns>
+        public MessageViewModelBuilder WithAddedOn(DateTime addedOn)
+        {
+            this.messageViewModel.AddedOn = addedOn;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets <see cref="MessageViewModel.EditedOn"/>.
+        /// </summary>
+        /// <param name="editedOn">Edited on.</param>
+        /// <returns>The updated <see cref="MessageViewModelBuilder"/>.</returns>
+        public MessageViewModelBuilder WithEditedOn(DateTime? editedOn)
+        {
+            this.messageViewModel.EditedOn = editedOn;
+            return this;
+        }
+
+        /// <summary>
         /// Sets <see cref="MessageViewModel.Content"/>.
         /// </summary>
         /// <param name="content">The content.</param>

@@ -28,7 +28,7 @@ namespace HelloWorld.Repositories.Implementations
         }
 
         /// <inheritdoc/>
-        public List<Message> GetAllMessages()
+        public List<Message> GetMessages()
         {
             return this.helloWorldContext.Messages.ToList();
         }
@@ -48,13 +48,19 @@ namespace HelloWorld.Repositories.Implementations
         }
 
         /// <inheritdoc/>
-        public Message GetMessage(Guid id)
+        public Message GetMessage(long id)
         {
             return this.helloWorldContext.Messages.SingleOrDefault(message => message.Id == id);
         }
 
         /// <inheritdoc/>
-        public Message UpdateMessage(Message message)
+        public Message GetMessage(Guid externalId)
+        {
+            return this.helloWorldContext.Messages.SingleOrDefault(message => message.ExternalId == externalId);
+        }
+
+        /// <inheritdoc/>
+        public Message EditMessage(Message message)
         {
             if (message == null)
             {

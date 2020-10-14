@@ -37,25 +37,25 @@ namespace HelloWorld.RepositoriesTests
         }
 
         /// <summary>
-        /// Tests <see cref="MessageRepository.GetAllMessages()"/>.
+        /// Tests <see cref="MessageRepository.GetMessages()"/>.
         /// </summary>
         [Fact]
-        public void GivenNoMessagesWhenGetAllMessagesIsCalledThenNoMessagesAreReturned()
+        public void GivenNoMessagesWhenGetMessagesIsCalledThenNoMessagesAreReturned()
         {
             // Arrange.
 
             // Act.
-            var result = this.systemUnderTest.GetAllMessages();
+            var result = this.systemUnderTest.GetMessages();
 
             // Assert.
             result.Should().BeEmpty();
         }
 
         /// <summary>
-        /// Tests <see cref="MessageRepository.GetAllMessages()"/>.
+        /// Tests <see cref="MessageRepository.GetMessages()"/>.
         /// </summary>
         [Fact]
-        public void GivenAMessageWhenGetAllMessagesIsCalledThenTheMessageIsReturned()
+        public void GivenAMessageWhenGetMessagesIsCalledThenTheMessageIsReturned()
         {
             // Arrange.
             var message = MessageBuilder.ABuilder().Build();
@@ -63,7 +63,7 @@ namespace HelloWorld.RepositoriesTests
             this.helloWorldContextTestDouble.SaveChanges();
 
             // Act.
-            var result = this.systemUnderTest.GetAllMessages();
+            var result = this.systemUnderTest.GetMessages();
 
             // Assert.
             result.Should().BeEquivalentTo(new List<Message> { message });
@@ -103,13 +103,13 @@ namespace HelloWorld.RepositoriesTests
         }
 
         /// <summary>
-        /// Tests <see cref="MessageRepository.GetMessage(Guid)"/>.
+        /// Tests <see cref="MessageRepository.GetMessage(long)"/>.
         /// </summary>
         [Fact]
-        public void GivenANonExistentIdWhenGetMessageIsCalledThenNullIsReturned()
+        public void GivenANonExistentIdWhenGetMessageOnLongIsCalledThenNullIsReturned()
         {
             // Arrange.
-            var id = Guid.NewGuid();
+            var id = 0L;
 
             // Act.
             var result = this.systemUnderTest.GetMessage(id);
@@ -119,10 +119,10 @@ namespace HelloWorld.RepositoriesTests
         }
 
         /// <summary>
-        /// Tests <see cref="MessageRepository.GetMessage(Guid)"/>.
+        /// Tests <see cref="MessageRepository.GetMessage(long)"/>.
         /// </summary>
         [Fact]
-        public void GivenAMessageWhenGetMessageIsCalledThenTheMessageIsReturned()
+        public void GivenAMessageWhenGetMessageOnLongIsCalledThenTheMessageIsReturned()
         {
             // Arrange.
             var message = MessageBuilder.ABuilder().Build();
@@ -137,35 +137,70 @@ namespace HelloWorld.RepositoriesTests
         }
 
         /// <summary>
-        /// Tests <see cref="MessageRepository.UpdateMessage(Message)"/>.
+        /// Tests <see cref="MessageRepository.GetMessage(Guid)"/>.
         /// </summary>
         [Fact]
-        public void GivenTheMessageIsNullWhenUpdateMessageIsCalledThenAnArgumentNullExceptionIsThrown()
+        public void GivenANonExistentExternalIdWhenGetMessageOnGuidIsCalledThenNullIsReturned()
+        {
+            // Arrange.
+            var externalId = Guid.NewGuid();
+
+            // Act.
+            var result = this.systemUnderTest.GetMessage(externalId);
+
+            // Assert.
+            result.Should().BeNull();
+        }
+
+        /// <summary>
+        /// Tests <see cref="MessageRepository.GetMessage(Guid)"/>.
+        /// </summary>
+        [Fact]
+        public void GivenAMessageWhenGetMessageOnGuidIsCalledThenTheMessageIsReturned()
+        {
+            // Arrange.
+            var message = MessageBuilder.ABuilder().Build();
+            this.helloWorldContextTestDouble.Messages.Add(message);
+            this.helloWorldContextTestDouble.SaveChanges();
+
+            // Act.
+            var result = this.systemUnderTest.GetMessage(message.ExternalId);
+
+            // Assert.
+            result.Should().BeEquivalentTo(message);
+        }
+
+        /// <summary>
+        /// Tests <see cref="MessageRepository.EditMessage(Message)"/>.
+        /// </summary>
+        [Fact]
+        public void GivenTheMessageIsNullWhenEditMessageIsCalledThenAnArgumentNullExceptionIsThrown()
         {
             // Arrange.
             var message = NullBuilder.Build<Message>();
 
             // Act.
-            Action action = () => this.systemUnderTest.UpdateMessage(message);
+            Action action = () => this.systemUnderTest.EditMessage(message);
 
             // Assert.
             action.Should().Throw<ArgumentNullException>();
         }
 
         /// <summary>
-        /// Tests <see cref="MessageRepository.UpdateMessage(Message)"/>.
+        /// Tests <see cref="MessageRepository.EditMessage(Message)"/>.
         /// </summary>
         [Fact]
-        public void GivenAMessageWithIdEmptyWhenUpdateMessageIsCalledThenTheMessageIsAdded()
+        public void GivenAMessageWithIdEmptyWhenEditMessageIsCalledThenTheMessageIsAdded()
         {
             // Arrange.
             var message = MessageBuilder
                 .ABuilder()
-                .WithId(Guid.Empty)
+                .WithId(0L)
+                .WithExternalId(Guid.Empty)
                 .Build();
 
             // Act.
-            var result = this.systemUnderTest.UpdateMessage(message);
+            var result = this.systemUnderTest.EditMessage(message);
 
             // Assert.
             result.Should().BeEquivalentTo(message);
@@ -173,35 +208,35 @@ namespace HelloWorld.RepositoriesTests
         }
 
         /// <summary>
-        /// Tests <see cref="MessageRepository.UpdateMessage(Message)"/>.
+        /// Tests <see cref="MessageRepository.EditMessage(Message)"/>.
         /// </summary>
         [Fact]
-        public void GivenAMessageWithIdFilledWhenUpdateMessageIsCalledThenADbUpdateConcurrencyExceptionIsThrown()
+        public void GivenAMessageWithIdFilledWhenEditMessageIsCalledThenADbUpdateConcurrencyExceptionIsThrown()
         {
             // Arrange.
             var message = MessageBuilder.ABuilder().Build();
 
             // Act.
-            Action action = () => this.systemUnderTest.UpdateMessage(message);
+            Action action = () => this.systemUnderTest.EditMessage(message);
 
             // Assert.
             action.Should().Throw<DbUpdateConcurrencyException>();
         }
 
         /// <summary>
-        /// Tests <see cref="MessageRepository.UpdateMessage(Message)"/>.
+        /// Tests <see cref="MessageRepository.EditMessage(Message)"/>.
         /// </summary>
         [Fact]
-        public void GivenAMessageWhenUpdateMessageIsCalledThenTheMessageIsUpdated()
+        public void GivenAMessageWhenEditMessageIsCalledThenTheMessageIsEdited()
         {
             // Arrange.
             var message = MessageBuilder.ABuilder().Build();
             this.helloWorldContextTestDouble.Messages.Add(message);
             this.helloWorldContextTestDouble.SaveChanges();
-            message.Content = "Updated";
+            message.Content = "Edited";
 
             // Act.
-            var result = this.systemUnderTest.UpdateMessage(message);
+            var result = this.systemUnderTest.EditMessage(message);
 
             // Assert.
             result.Should().BeEquivalentTo(message);

@@ -1,4 +1,4 @@
-﻿// <copyright file="MessageController.cs" company="dsnouck">
+﻿// <copyright file="MessagesController.cs" company="dsnouck">
 // Copyright (c) dsnouck. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -18,23 +18,18 @@ namespace HelloWorld.WebApi.Controllers
     /// A controller for messages.
     /// </summary>
     [ApiController]
-    [Route(Route)]
-    public class MessageController : Controller
+    [Route("api/v1/[controller]")]
+    public class MessagesController : Controller
     {
-        /// <summary>
-        /// The route of this controller.
-        /// </summary>
-        public const string Route = "Messages";
-
         private readonly IMapper mapper;
         private readonly IMessageComponent messageComponent;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageController"/> class.
+        /// Initializes a new instance of the <see cref="MessagesController"/> class.
         /// </summary>
         /// <param name="mapper">An <see cref="IMapper"/>.</param>
         /// <param name="messageComponent">An <see cref="IMessageComponent"/>.</param>
-        public MessageController(
+        public MessagesController(
             IMapper mapper,
             IMessageComponent messageComponent)
         {
@@ -43,19 +38,19 @@ namespace HelloWorld.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets all messages.
+        /// Gets messages.
         /// </summary>
-        /// <returns>All messages.</returns>
+        /// <returns>Messages.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GetAllMessages()
+        public IActionResult GetMessages()
         {
-            var allMessageViewModels = this.messageComponent
-                .GetAllMessages()
+            var messageViewModels = this.messageComponent
+                .GetMessages()
                 .Select(this.mapper.Map<MessageViewModel>)
                 .ToList();
 
-            return this.Ok(allMessageViewModels);
+            return this.Ok(messageViewModels);
         }
 
         /// <summary>
@@ -77,7 +72,7 @@ namespace HelloWorld.WebApi.Controllers
             this.messageComponent.AddMessage(message);
             var messageViewModel = this.mapper.Map<MessageViewModel>(message);
 
-            var uri = new Uri($"/{Route}/{messageViewModel.Id}", UriKind.Relative);
+            var uri = new Uri($"/api/1.0/Messages/{messageViewModel.Id}", UriKind.Relative);
             return this.Created(uri, messageViewModel);
         }
 
@@ -103,16 +98,16 @@ namespace HelloWorld.WebApi.Controllers
         }
 
         /// <summary>
-        /// Updates the message with the given <paramref name="id"/>.
+        /// Edits the message with the given <paramref name="id"/>.
         /// </summary>
         /// <param name="id">The id.</param>
         /// <param name="messageAddEditViewModel">The message.</param>
-        /// <returns>The updated message.</returns>
+        /// <returns>The edited message.</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult UpdateMessage(Guid id, MessageAddEditViewModel messageAddEditViewModel)
+        public IActionResult EditMessage(Guid id, MessageAddEditViewModel messageAddEditViewModel)
         {
             if (messageAddEditViewModel == null)
             {
@@ -126,7 +121,7 @@ namespace HelloWorld.WebApi.Controllers
             }
 
             this.mapper.Map(messageAddEditViewModel, message);
-            this.messageComponent.UpdateMessage(message);
+            this.messageComponent.EditMessage(message);
             var messageViewModel = this.mapper.Map<MessageViewModel>(message);
 
             return this.Ok(messageViewModel);

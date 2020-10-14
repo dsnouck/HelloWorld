@@ -5,22 +5,13 @@
 
 namespace HelloWorld.Models
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// Represents a message.
     /// </summary>
-    public class Message
+    public class Message : PersistentModelWithExternalId
     {
-        /// <summary>
-        /// Gets or sets the id.
-        /// </summary>
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
-
         /// <summary>
         /// Gets or sets the content.
         /// </summary>
