@@ -1,4 +1,4 @@
-﻿// <copyright file="MessageControllerIntegrationTests.cs" company="dsnouck">
+﻿// <copyright file="MessagesControllerIntegrationTests.cs" company="dsnouck">
 // Copyright (c) dsnouck. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -22,7 +22,7 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
     /// <summary>
     /// Provides integration tests for <see cref="MessagesController"/>.
     /// </summary>
-    public class MessageControllerIntegrationTests : IDisposable
+    public class MessagesControllerIntegrationTests : IDisposable
     {
         private readonly InMemoryWebApplicationFactory<Startup> factory;
         private readonly HttpClient client;
@@ -30,9 +30,9 @@ namespace HelloWorld.WebApiIntegrationTests.Controllers
         private bool disposed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageControllerIntegrationTests"/> class.
+        /// Initializes a new instance of the <see cref="MessagesControllerIntegrationTests"/> class.
         /// </summary>
-        public MessageControllerIntegrationTests()
+        public MessagesControllerIntegrationTests()
         {
             this.factory = new InMemoryWebApplicationFactory<Startup>();
             this.client = this.factory.CreateClient();

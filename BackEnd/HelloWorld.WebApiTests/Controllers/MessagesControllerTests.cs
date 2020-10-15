@@ -1,4 +1,4 @@
-﻿// <copyright file="MessageControllerTests.cs" company="dsnouck">
+﻿// <copyright file="MessagesControllerTests.cs" company="dsnouck">
 // Copyright (c) dsnouck. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -21,7 +21,7 @@ namespace HelloWorld.WebApiTests.Controllers
     /// <summary>
     /// Provides tests for <see cref="MessagesController"/>.
     /// </summary>
-    public class MessageControllerTests : IDisposable
+    public class MessagesControllerTests : IDisposable
     {
         private readonly MessagesController systemUnderTest;
         private readonly Mock<IMapper> mapperTestDouble;
@@ -29,9 +29,9 @@ namespace HelloWorld.WebApiTests.Controllers
         private bool disposed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageControllerTests"/> class.
+        /// Initializes a new instance of the <see cref="MessagesControllerTests"/> class.
         /// </summary>
-        public MessageControllerTests()
+        public MessagesControllerTests()
         {
             this.mapperTestDouble = new Mock<IMapper>();
             this.messageComponentTestDouble = new Mock<IMessageComponent>();
