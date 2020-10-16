@@ -72,7 +72,7 @@ namespace HelloWorld.WebApi.Controllers
             this.messageComponent.AddMessage(message);
             var messageViewModel = this.mapper.Map<MessageViewModel>(message);
 
-            var uri = new Uri($"/api/1.0/Messages/{messageViewModel.Id}", UriKind.Relative);
+            var uri = new Uri($"/api/v1/Messages/{messageViewModel.Id}", UriKind.Relative);
             return this.Created(uri, messageViewModel);
         }
 

@@ -141,7 +141,7 @@ namespace HelloWorld.WebApiTests.Controllers
             result.Should().BeOfType<CreatedResult>();
             var createdresult = (CreatedResult)result;
             createdresult.Value.Should().BeEquivalentTo(messageViewModel);
-            createdresult.Location.Should().Be($"/api/1.0/Messages/{messageViewModel.Id}");
+            createdresult.Location.Should().Be($"/api/v1/Messages/{messageViewModel.Id}");
             this.mapperTestDouble
                 .Verify(mapper => mapper.Map<Message>(messageAddEditViewModel), Times.Once);
             this.messageComponentTestDouble
